@@ -8,37 +8,37 @@ export interface TestimonialType {
 export const testimonials: TestimonialType[] = [
 	{
 		content:
-			"Working with this developer has significantly improved my digital presence. His attention to detail and creative approach exceeded my expectations.",
+			"Trabajar con este desarrollador mejoro notablemente mi presencia digital. Su atencion al detalle y su enfoque creativo superaron mis expectativas.",
 		author: "Bill Gates",
-		position: "Tech Entrepreneur",
+		position: "Emprendedor tech",
 		imageSrc: "/placeholder-2.jpg",
 	},
 	{
 		content:
-			"His technical expertise and creativity are exceptional. He didn't just meet our goals – he helped us see the project from a new perspective.",
+			"Su experiencia tecnica y creatividad son excepcionales. No solo cumplio nuestros objetivos, tambien nos ayudo a ver el proyecto desde otra perspectiva.",
 		author: "Elon Musk",
 		position: "CEO, SpaceY",
 		imageSrc: "/placeholder-2.jpg",
 	},
 	{
 		content:
-			"His innovative approach to problem-solving and commitment to the project made a strong impression. The results speak for themselves.",
+			"Su enfoque innovador para resolver problemas y su compromiso con el proyecto dejaron una gran impresion. Los resultados hablan por si solos.",
 		author: "Marie Curie",
-		position: "Scientist",
+		position: "Cientifica",
 		imageSrc: "/placeholder-2.jpg",
 	},
 	{
 		content:
-			"Working with Marek has been seamless and professional. His responsiveness and ability to deliver beyond expectations set him apart.",
+			"Trabajar con Marek fue fluido y profesional. Su rapidez de respuesta y su capacidad de entregar mas de lo esperado lo distinguen.",
 		author: "Ada Lovelace",
-		position: "Computing Pioneer",
+		position: "Pionera de la computacion",
 		imageSrc: "/placeholder-2.jpg",
 	},
 	{
 		content:
-			"Great collaboration and clear communication throughout. His input on design was invaluable, and the results exceeded expectations.",
+			"Gran colaboracion y comunicacion clara durante todo el proceso. Su aporte en diseno fue invaluable y los resultados superaron expectativas.",
 		author: "Steve Jobs",
-		position: "Co-Founder, Pear Inc.",
+		position: "Co-fundador, Pear Inc.",
 		imageSrc: "/placeholder-2.jpg",
 	},
 ];

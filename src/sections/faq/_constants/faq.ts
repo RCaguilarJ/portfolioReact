@@ -5,86 +5,86 @@ export interface FaqItem {
 
 export const faqItems: FaqItem[] = [
 	{
-		question: "What type of work can I showcase here?",
+		question: "Que tipo de trabajo puedo mostrar aqui?",
 		answer:
-			"Use this answer to outline the kind of projects you take on mobile apps, SaaS dashboards, creative campaigns, installations, you name it. Mention the industries or team sizes you typically collaborate with.",
+			"Usa esta respuesta para describir el tipo de proyectos que haces: apps moviles, dashboards SaaS, campanas creativas, instalaciones, lo que sea. Menciona las industrias o el tamano de los equipos con los que colaboras.",
 	},
 	{
-		question: "How should I describe my process?",
+		question: "Como debo describir mi proceso?",
 		answer:
-			"Walk visitors through your approach from kickoff to launch. Touch on discovery, design handoff, development milestones, QA, and how you wrap projects to keep expectations clear.",
+			"Guia a los visitantes por tu enfoque desde el kickoff hasta el lanzamiento. Menciona descubrimiento, handoff de diseno, hitos de desarrollo, QA y como cierras los proyectos.",
 	},
 	{
-		question: "What timelines should I mention?",
+		question: "Que tiempos debo mencionar?",
 		answer:
-			"Share realistic ranges for the work you do most often. Highlight the factors that can speed things up or slow them down so prospects understand how to plan with you.",
+			"Comparte rangos realistas para el trabajo que haces mas seguido. Destaca los factores que aceleran o retrasan para que sepan como planear contigo.",
 	},
 	{
-		question: "How do I talk about collaboration?",
+		question: "Como hablo de la colaboracion?",
 		answer:
-			"Explain how you plug into existing teams, whether you provide async updates, and what tools (Figma, Linear, Slack, etc.) you prefer for smooth communication.",
+			"Explica como te integras a equipos existentes, si das actualizaciones asincronas y que herramientas (Figma, Linear, Slack, etc.) prefieres para una comunicacion fluida.",
 	},
 	{
-		question: "Which tools or stack belong here?",
+		question: "Que herramientas o stack van aqui?",
 		answer:
-			"List the technologies that define your work frameworks, animation libraries, prototyping tools, or 3D workflows. This helps clients match you with the right projects.",
+			"Enumera las tecnologias que definen tu trabajo: frameworks, librerias de animacion, herramientas de prototipado o flujos 3D. Esto ayuda a que los clientes te asignen el proyecto correcto.",
 	},
 	{
-		question: "Can I mention availability?",
+		question: "Puedo mencionar disponibilidad?",
 		answer:
-			"Absolutely. Let people know if youre booking a month out, available instantly, or only taking on retainers. It saves back-and-forth and sets an immediate expectation.",
+			"Claro. Diles si agendas con un mes de anticipacion, estas disponible de inmediato o solo tomas retainers. Ahorra ida y vuelta y fija expectativas.",
 	},
 	{
-		question: "Should I cover pricing?",
+		question: "Debo hablar de precios?",
 		answer:
-			"If youre comfortable sharing, outline the formats you offer: fixed bids, retainers, sprints, or day rates. Even a simple range provides clarity for new leads.",
+			"Si te sientes comodo, describe los formatos que ofreces: tarifas fijas, retainers, sprints o tarifas diarias. Incluso un rango simple da claridad.",
 	},
 	{
-		question: "What if someone needs more info?",
+		question: "Y si alguien necesita mas info?",
 		answer:
-			"Encourage visitors to reach out with anything not covered above. Point them to your contact form or email so they know exactly how to start the conversation.",
+			"Anima a que te escriban por lo que no este cubierto. Dirigelos a tu formulario o email para que sepan como iniciar la conversacion.",
 	},
 ];
 
 export const faqItemsMobile: FaqItem[] = [
 	{
-		question: "What projects fit here?",
+		question: "Que proyectos van aqui?",
 		answer:
-			"Describe the type of work you love doing and who its for so new leads know theyre in the right place.",
+			"Describe el tipo de trabajo que te encanta hacer y para quien es, asi nuevos leads saben que estan en el lugar correcto.",
 	},
 	{
-		question: "Whats the process?",
+		question: "Como es el proceso?",
 		answer:
-			"Outline your workflow at a high level discovery, build, launch to show how organized you are.",
+			"Resume tu flujo a alto nivel: descubrimiento, construccion, lanzamiento, para mostrar lo organizado que eres.",
 	},
 	{
-		question: "How fast can things ship?",
+		question: "Que tan rapido se puede entregar?",
 		answer:
-			"Give a rough range for common engagements and call out what makes timelines move up or down.",
+			"Da un rango aproximado para trabajos comunes y menciona que hace que los tiempos suban o bajen.",
 	},
 	{
-		question: "How do we collaborate?",
+		question: "Como colaboramos?",
 		answer:
-			"List the tools you prefer and whether you plug into existing teams, handle communication async, or lead the project.",
+			"Lista las herramientas que prefieres y si te integras a equipos existentes, manejas comunicacion asincrona o lideras el proyecto.",
 	},
 	{
-		question: "What tools do you use?",
+		question: "Que herramientas usas?",
 		answer:
-			"Share your primary stack or platforms. People searching for a specialist will thank you.",
+			"Comparte tu stack principal o plataformas. La gente que busca un especialista lo agradecera.",
 	},
 	{
-		question: "Are you available?",
+		question: "Estas disponible?",
 		answer:
-			"Let folks know if youre open for new work now, booking next quarter, or taking on limited engagements.",
+			"Diles si estas abierto a nuevo trabajo ahora, agendando el proximo trimestre o tomando proyectos limitados.",
 	},
 	{
-		question: "How do you price projects?",
+		question: "Como cobras proyectos?",
 		answer:
-			"Reference your preferred model (fixed scope, sprint-based, or retainers) and invite people to request a quote.",
+			"Menciona tu modelo preferido (alcance fijo, por sprint o retainers) e invita a pedir una cotizacion.",
 	},
 	{
-		question: "Need something else?",
+		question: "Necesitas algo mas?",
 		answer:
-			"Remind visitors they can always message you through the contact form for anything not covered here.",
+			"Recuerda que siempre pueden escribirte mediante el formulario de contacto para cualquier cosa no cubierta aqui.",
 	},
 ];

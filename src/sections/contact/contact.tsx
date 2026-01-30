@@ -8,10 +8,10 @@ export default function Contact() {
 	return (
 		<Section
 			id="contact"
-			title="Start a project or say hello"
-			description="Share a bit about your idea, timeline, or challenge. Let visitors know how quickly you typically respond and what details help you reply faster."
+			title="Inicia un proyecto o saluda"
+			description="Comparte un poco sobre tu idea, tiempos o reto. Diles a los visitantes que tan rapido respondes y que detalles ayudan a contestar mas rapido."
 			className="flex justify-center overflow-hidden"
-			badgeText="Contact"
+			badgeText="Contacto"
 			badgeIcon={<PaperPlaneIcon aria-hidden="true" className="size-3.5" />}
 		>
 			<ContactFormCard />

@@ -12,7 +12,7 @@ export const sendContactMessage = createServerFn({ method: "POST" })
 		const to = process.env.RESEND_TO_EMAIL;
 		const from =
 			process.env.RESEND_FROM_EMAIL ??
-			"Portfolio Contact <onboarding@resend.dev>";
+			"Contacto del portafolio <onboarding@resend.dev>";
 
 		if (!resendKey) {
 			throw new Error("Missing RESEND_API_KEY environment variable.");
@@ -30,7 +30,7 @@ export const sendContactMessage = createServerFn({ method: "POST" })
 			from,
 			to: [to],
 			replyTo: data.email,
-			subject: data.subject || `New inquiry from ${data.firstName}`,
+			subject: data.subject || `Nueva consulta de ${data.firstName}`,
 			html,
 			text,
 		});

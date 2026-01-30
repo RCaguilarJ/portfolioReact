@@ -50,8 +50,9 @@ export default function ContactFormCard() {
 				setErrors(nextErrors);
 				const firstIssue = parsed.error.issues[0];
 				toast.warning({
-					title: "Check the form",
-					description: firstIssue?.message ?? "Review the highlighted fields.",
+					title: "Revisa el formulario",
+					description:
+						firstIssue?.message ?? "Revisa los campos resaltados.",
 				});
 				setIsSubmitting(false);
 				return;
@@ -62,14 +63,15 @@ export default function ContactFormCard() {
 				await sendContactMessageFn({ data: parsed.data });
 				form.reset();
 				toast.success({
-					title: "Message sent",
-					description: "Thanks! Expect a response within two business days.",
+					title: "Mensaje enviado",
+					description:
+						"Gracias. Recibiras respuesta en dos dias habiles.",
 				});
 			} catch (error) {
 				console.error(error);
 				toast.error({
-					title: "Message failed",
-					description: "Something went wrong while sending your message.",
+					title: "No se pudo enviar",
+					description: "Algo salio mal al enviar tu mensaje.",
 				});
 			} finally {
 				setIsSubmitting(false);
@@ -85,17 +87,17 @@ export default function ContactFormCard() {
 				<Form onSubmit={handleSubmit} className="space-y-4">
 					<div className="grid gap-4 md:grid-cols-2">
 						<Input
-							label="First Name"
+							label="Nombre"
 							name="firstName"
-							placeholder="Jamie"
+							placeholder="Juan"
 							required
 							wrapperClassName="w-full bg-[color-mix(in_oklch,var(--color-background)_60%,var(--color-card)_40%)]"
 							variant={errors.firstName ? "error" : "default"}
 						/>
 						<Input
-							label="Last Name"
+							label="Apellido"
 							name="lastName"
-							placeholder="Smith"
+							placeholder="Perez"
 							required
 							wrapperClassName="w-full bg-[color-mix(in_oklch,var(--color-background)_60%,var(--color-card)_40%)]"
 							variant={errors.lastName ? "error" : "default"}
@@ -103,24 +105,24 @@ export default function ContactFormCard() {
 					</div>
 					<Input
 						type="email"
-						label="Email"
+						label="Correo"
 						name="email"
-						placeholder="your@email.com"
+						placeholder="tu@correo.com"
 						required
 						wrapperClassName="w-full bg-[color-mix(in_oklch,var(--color-background)_60%,var(--color-card)_40%)]"
 						variant={errors.email ? "error" : "default"}
 					/>
 					<Input
-						label="Project or company"
+						label="Proyecto o empresa"
 						name="subject"
-						placeholder="Tell me what you're building"
+						placeholder="Cuentame que estas construyendo"
 						wrapperClassName="w-full bg-[color-mix(in_oklch,var(--color-background)_60%,var(--color-card)_40%)]"
 						variant={errors.subject ? "error" : "default"}
 					/>
 					<Textarea
-						label="How can I help?"
+						label="En que puedo ayudar?"
 						name="message"
-						placeholder="What problem are we solving together?"
+						placeholder="Que problema vamos a resolver juntos?"
 						rows={5}
 						required
 						wrapperClassName="w-full bg-[color-mix(in_oklch,var(--color-background)_60%,var(--color-card)_40%)]"
@@ -128,7 +130,7 @@ export default function ContactFormCard() {
 					/>
 					<FormActions align="right">
 						<Button type="submit" size="md" disabled={isSubmitting}>
-							{isSubmitting ? "Sending..." : "Send message"}
+							{isSubmitting ? "Enviando..." : "Enviar mensaje"}
 						</Button>
 					</FormActions>
 				</Form>

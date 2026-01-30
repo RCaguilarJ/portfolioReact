@@ -7,10 +7,10 @@ export default function Works() {
 	return (
 		<Section
 			id="works"
-			title="Preview a few highlight projects"
-			description="Swap in real case studies that show your range — from product builds to creative experiments."
+			title="Mira algunos proyectos destacados"
+			description="Sustituye por casos reales que muestren tu rango - desde productos hasta experimentos creativos."
 			className="grid grid-cols-1 gap-4"
-			badgeText="Featured projects"
+			badgeText="Proyectos destacados"
 			badgeIcon={<GridIcon aria-hidden="true" className="size-3.5" />}
 		>
 			{works.map((item) => (

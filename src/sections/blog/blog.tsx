@@ -13,18 +13,18 @@ export default function Blog({ posts }: BlogSectionProps) {
 	return (
 		<Section
 			id="blog"
-			title="Share your latest thinking"
-			description="Use this section to tease recent posts, public build logs, or long-form breakdowns of the work you're most proud of."
+			title="Comparte tus ideas mas recientes"
+			description="Usa esta seccion para adelantar publicaciones recientes, bitacoras publicas o analisis largos del trabajo del que mas te enorgulleces."
 			className="grid grid-cols-1 gap-4 md:grid-cols-2"
-			badgeText="Latest posts"
+			badgeText="Ultimas publicaciones"
 			badgeIcon={<ReaderIcon aria-hidden="true" className="size-3.5" />}
 		>
 			{hasPosts ? (
 				posts.map((post) => <BlogCard key={post.slug} meta={post} />)
 			) : (
 				<p className="text-sm text-foreground/60">
-					No posts yet — add an MDX file in <code>src/content/posts</code> to
-					populate this grid.
+					Aun no hay publicaciones - agrega un archivo MDX en{" "}
+					<code>src/content/posts</code> para llenar esta rejilla.
 				</p>
 			)}
 		</Section>

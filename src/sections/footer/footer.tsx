@@ -25,11 +25,11 @@ export default function Footer() {
 					<div className="flex flex-col gap-3">
 						<div className="flex gap-2 items-center text-foreground">
 							<LogoIcon className="size-4" />
-							<p className="text-sm font-medium">Your Name</p>
+							<p className="text-sm font-medium">Tu nombre</p>
 						</div>
 						<p className="text-xs text-foreground/70 leading-relaxed max-w-xs">
-							Use this placeholder copy to describe your focus, niche, or the
-							type of projects you love working on.
+							Usa este texto de ejemplo para describir tu enfoque, nicho o el
+							tipo de proyectos que te encanta hacer.
 						</p>
 					</div>
 
@@ -50,7 +50,7 @@ export default function Footer() {
 				</div>
 
 				<div className="flex flex-col gap-2">
-					<p className="text-xs text-foreground">Navigation</p>
+					<p className="text-xs text-foreground">Navegacion</p>
 					<ul className="space-y-2 text-xs text-foreground/70">
 						{footerLinks.map((link) => (
 							<li key={link.label}>
@@ -70,12 +70,11 @@ export default function Footer() {
 			<div className="text-xs text-foreground/70 border-t border-border/80">
 				<div className="w-full md:max-w-5xl mx-auto flex flex-col md:flex-row gap-1 px-4 py-4 md:px-2 items-center justify-between">
 					<p>
-						© {currentYear} Your Name. Update this footer text to match your
-						brand.
+						(c) {currentYear} Tu nombre. Actualiza este texto del pie para que
+						coincida con tu marca.
 					</p>
 					<p>
-						Let visitors know where you work from or the type of collaborations
-						you take on.
+						Indica desde donde trabajas o el tipo de colaboraciones que aceptas.
 					</p>
 				</div>
 			</div>

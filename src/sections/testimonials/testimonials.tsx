@@ -30,10 +30,10 @@ export default function Testimonials() {
 	return (
 		<Section
 			id="testimonials"
-			title="Share concise quotes from clients or teammates"
-			description="Keep this copy short and let each testimonial do the selling — swap in praise that reflects the way you work."
+			title="Comparte citas breves de clientes o companeros"
+			description="Manten este texto corto y deja que cada testimonio venda - cambia por elogios que reflejen como trabajas."
 			className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
-			badgeText="Kind words"
+			badgeText="Buenas palabras"
 			badgeIcon={<CheckIcon aria-hidden="true" className="size-3.5" />}
 		>
 		{columns.map((column, columnIndex) => {

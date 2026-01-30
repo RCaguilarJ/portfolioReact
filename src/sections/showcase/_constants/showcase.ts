@@ -9,25 +9,25 @@ export type ShowcaseHighlight = {
 
 export const showcaseHighlights: ShowcaseHighlight[] = [
 	{
-		title: "Showreel Highlight 01",
+		title: "Showreel destacado 01",
 		description:
-			"Swap in a looping cut from your hero campaign, launch film, or motion study to set the tone.",
+			"Cambia por un loop de tu campana principal, video de lanzamiento o estudio de motion para marcar el tono.",
 		src: "",
 		poster: "/placeholder-1.jpg",
 		className: "lg:col-span-2 lg:row-span-2",
 	},
 	{
-		title: "Showreel Highlight 02",
+		title: "Showreel destacado 02",
 		description:
-			"Use this slot for a second vignette, prototype capture, or screen-recorded walkthrough.",
+			"Usa este espacio para una segunda vineta, captura de prototipo o recorrido grabado de pantalla.",
 		src: "",
 		poster: "/placeholder-1.jpg",
 		className: "lg:col-span-1 lg:row-span-1",
 	},
 	{
-		title: "Showreel Highlight 03",
+		title: "Showreel destacado 03",
 		description:
-			"Explain what viewers are seeing, what role you played, or what tools and collaborators were involved.",
+			"Explica lo que se ve, que rol tuviste o que herramientas y colaboradores participaron.",
 		src: "",
 		poster: "/placeholder-1.jpg",
 		className: "lg:col-span-1 lg:row-span-1",

@@ -58,118 +58,118 @@ const convertingCardIcons: ConvertingCardIconSet = {
 
 export const serviceItems: ServiceItem[] = [
 	{
-		name: "Service Package 01",
+		name: "Paquete de servicio 01",
 		description:
-			"Swap in the flagship engagement you offer most often — outline the scope, duration, and business outcome.",
+			"Cambia por la oferta principal que brindas con mas frecuencia - define el alcance, la duracion y el resultado de negocio.",
 	},
 	{
-		name: "Service Package 02",
+		name: "Paquete de servicio 02",
 		description:
-			"Use this slot for a second offer or retainer tier to highlight how you support different client needs.",
+			"Usa este espacio para una segunda oferta o plan de retencion que destaque como apoyas distintas necesidades de clientes.",
 	},
 	{
-		name: "Dedicated Sprint",
+		name: "Sprint dedicado",
 		description:
-			"Describe a focused two-to-four week collaboration you run to tackle a single feature, redesign, or prototype.",
+			"Describe una colaboracion enfocada de dos a cuatro semanas para abordar una sola funcionalidad, rediseno o prototipo.",
 	},
 	{
-		name: "Advisory Session",
+		name: "Sesion de asesoria",
 		description:
-			"Note how teams can book strategy calls, technical audits, or office hours when they need a quick unblock.",
+			"Indica como los equipos pueden agendar llamadas de estrategia, auditorias tecnicas u horas de oficina cuando necesiten destrabarse.",
 	},
 	{
-		name: "Launch Support",
+		name: "Soporte de lanzamiento",
 		description:
-			"Explain the handoff, QA, and deployment support you bring during product launches or campaign pushes.",
+			"Explica el handoff, el QA y el soporte de despliegue que aportas durante lanzamientos de producto o campanas.",
 	},
 	{
-		name: "Optimization Pass",
+		name: "Pase de optimizacion",
 		description:
-			"Reserve this line for performance, accessibility, or UX audits that keep shipped work feeling polished.",
+			"Reserva esta linea para auditorias de rendimiento, accesibilidad o UX que mantengan el trabajo pulido.",
 	},
 	{
-		name: "Systems Audit",
+		name: "Auditoria de sistemas",
 		description:
-			"Call out any platform review, stack migration, or modernization work that keeps teams prepared for scale.",
+			"Menciona revisiones de plataforma, migracion de stack o modernizacion que mantengan a los equipos listos para escalar.",
 	},
 ];
 
 export const bestPractices: ServiceItem[] = [
 	{
-		name: "Principle 01 — Lead With Outcomes",
+		name: "Principio 01 - Lidera con resultados",
 		description:
-			"A quick reminder to mention the measurable change you bring, not just the toolset you use to get there.",
+			"Un recordatorio para mencionar el cambio medible que logras, no solo las herramientas que usas para llegar alli.",
 	},
 	{
-		name: "Principle 02 — Keep Teams In The Loop",
+		name: "Principio 02 - Mantener a los equipos al tanto",
 		description:
-			"Suggest how you handle weekly updates, async notes, or Loom recaps so clients know exactly what's moving.",
+			"Sugiere como manejas actualizaciones semanales, notas asincronas o resumenes en Loom para que los clientes sepan que avanza.",
 	},
 	{
-		name: "Principle 03 — Design For Handoff",
+		name: "Principio 03 - Disenar para el handoff",
 		description:
-			"Explain how you package deliverables, documentation, or recordings so work is easy to extend later on.",
+			"Explica como empaquetas entregables, documentacion o grabaciones para que el trabajo sea facil de ampliar mas adelante.",
 	},
 	{
-		name: "Principle 04 — Prototype Early",
+		name: "Principio 04 - Prototipar temprano",
 		description:
-			"Encourage readers to reference the prototypes, sandboxes, or experiments you typically run up front.",
+			"Invita a referenciar los prototipos, sandboxes o experimentos que sueles hacer al inicio.",
 	},
 	{
-		name: "Principle 05 — Sweat The Details",
+		name: "Principio 05 - Cuidar los detalles",
 		description:
-			"Use this space to note your obsession with accessibility, polish, or animation that sets you apart.",
+			"Usa este espacio para contar tu obsesion por la accesibilidad, el pulido o la animacion que te diferencia.",
 	},
 	{
-		name: "Principle 06 — Build For Change",
+		name: "Principio 06 - Construir para el cambio",
 		description:
-			"Remind teams that you keep architecture flexible, future-friendly, and ready for whatever V2 demands.",
+			"Recuerda que mantienes la arquitectura flexible, lista para el futuro y preparada para lo que pida la V2.",
 	},
 	{
-		name: "Principle 07 — Document The Journey",
+		name: "Principio 07 - Documentar el camino",
 		description:
-			"Point to how you capture learnings, write internal notes, or ship looms that demystify key decisions.",
+			"Cuenta como capturas aprendizajes, escribes notas internas o compartes looms que aclaran decisiones clave.",
 	},
 	{
-		name: "Principle 08 — Test Relentlessly",
+		name: "Principio 08 - Probar sin descanso",
 		description:
-			"Reserve this bullet for your preferred QA cadence, tooling, or review rituals before anything ships.",
+			"Reserva este punto para tu cadencia de QA, herramientas o rituales de revision antes de publicar.",
 	},
 	{
-		name: "Principle 09 — Collaborate Openly",
+		name: "Principio 09 - Colaborar abiertamente",
 		description:
-			"Call out the cadence of workshops, office hours, or async standups you host with product partners.",
+			"Menciona la cadencia de workshops, horas de oficina o standups asincronos que llevas con socios de producto.",
 	},
 	{
-		name: "Principle 10 — Iterate After Launch",
+		name: "Principio 10 - Iterar despues del lanzamiento",
 		description:
-			"Highlight how you stay close to analytics, user feedback, or retention data to plan the next release.",
+			"Destaca como te mantienes cerca de analiticas, feedback de usuarios o datos de retencion para planear el siguiente release.",
 	},
 ];
 
 export const serviceFeatures: ServiceFeature[] = [
 	{
-		name: "Service Overview",
+		name: "Resumen del servicio",
 		description:
-			"Swap in a short blurb that explains what types of projects you take on and how clients can engage.",
+			"Cambia por un texto corto que explique que tipos de proyectos tomas y como pueden contratarte.",
 		href: "#",
 		className: "col-span-1",
 		background: <ServicesCardContent items={serviceItems} />,
 	},
 
 	{
-		name: "From Design To Build",
+		name: "De diseno a desarrollo",
 		description:
-			"Use this tile to describe how you translate Figma boards, decks, or briefs into production-ready work.",
+			"Usa este bloque para describir como traduces tableros de Figma, presentaciones o briefs en trabajo listo para produccion.",
 		href: "#",
 		className: "col-span-1",
 		background: <ConvertingCardContent icons={convertingCardIcons} />,
 	},
 
 	{
-		name: "Code Standards",
+		name: "Estandares de codigo",
 		description:
-			"Outline the engineering values, review rituals, or guardrails that keep your work maintainable.",
+			"Describe los valores de ingenieria, rituales de revision o lineamientos que mantienen tu trabajo sostenible.",
 		href: "#",
 		className: "col-span-1",
 		background: <CleanCodeCardContent items={bestPractices} />,

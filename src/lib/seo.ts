@@ -38,16 +38,16 @@ export type BlogSeoPayload = {
 };
 
 const SITE_URL = "https://your-domain.com";
-const SITE_NAME = "Your Name";
-const DEFAULT_TITLE = "Your Name — Your Role";
+const SITE_NAME = "Tu nombre";
+const DEFAULT_TITLE = "Tu nombre - Tu rol";
 const DEFAULT_DESCRIPTION =
-	"Use this space to describe the kind of work you do, the industries you serve, and what makes your approach unique.";
+	"Usa este espacio para describir el tipo de trabajo que haces, las industrias que atiendes y lo que hace unico tu enfoque.";
 const DEFAULT_KEYWORDS = [
-	"portfolio",
+	"portafolio",
 	"freelance",
-	"independent",
-	"developer",
-	"designer",
+	"independiente",
+	"desarrollador",
+	"disenador",
 ];
 const AUTHOR = "your-handle";
 const CONTACT_EMAIL = "hello@your-domain.com";
@@ -95,15 +95,15 @@ const defaultJsonLd = {
 	sameAs: SOCIAL_PROFILES,
 	offers: {
 		"@type": "Offer",
-		name: "Your Service Offering",
+		name: "Tu oferta de servicios",
 		description:
-			"Describe the services you provide, the tools you work with, or the kinds of problems you solve.",
+			"Describe los servicios que ofreces, las herramientas con las que trabajas o los problemas que resuelves.",
 	},
 	knowsAbout: [
-		"Design systems",
-		"Interface design",
-		"Web development",
-		"Creative coding",
+		"Sistemas de diseno",
+		"Diseno de interfaces",
+		"Desarrollo web",
+		"Programacion creativa",
 	],
 };
 
@@ -171,7 +171,7 @@ export function getBlogPostSeo(post: BlogSeoPayload): HeadTags {
 	const isoDate = getIsoDate(post.date);
 
 	const meta: MetaTag[] = [
-		{ title: `${post.title} | Portfolio Blog` },
+		{ title: `${post.title} | Blog de portafolio` },
 		{ name: "description", content: description },
 		{ name: "author", content: AUTHOR },
 		{ name: "keywords", content: keywords },

@@ -15,11 +15,11 @@ import { cn } from "@/lib/utils";
 registerGsapPlugins();
 
 const NAV_LINKS = [
-	{ label: "Services", target: "#services" },
-	{ label: "Works", target: "#works" },
-	{ label: "Showcase", target: "#showcase" },
-	{ label: "Testimonials", target: "#testimonials" },
-	{ label: "FAQ", target: "#faq" },
+	{ label: "Servicios", target: "#services" },
+	{ label: "Proyectos", target: "#works" },
+	{ label: "Galeria", target: "#showcase" },
+	{ label: "Testimonios", target: "#testimonials" },
+	{ label: "Preguntas", target: "#faq" },
 	{ label: "Blog", target: "#blog" },
 ] as const;
 
@@ -256,7 +256,7 @@ export function Navbar() {
 	return (
 		<nav
 			className="fixed top-2 inset-x-0 z-50 flex justify-center px-2 md:px-4"
-			aria-label="Main navigation"
+			aria-label="Navegacion principal"
 		>
 			<div
 				ref={navbarRef}
@@ -276,14 +276,14 @@ export function Navbar() {
 				>
 					<div className="flex items-center gap-2">
 						<LogoIcon className="size-4" />
-						<span>Your Name</span>
+						<span>Tu nombre</span>
 					</div>
 				</Button>
 
 				<div
 				className="hidden absolute left-1/2 -translate-x-1/2 md:flex items-center gap-2"
 					role="menubar"
-					aria-label="Desktop navigation"
+					aria-label="Navegacion de escritorio"
 				>
 					{NAV_LINKS.map((link) => (
 						<Button
@@ -309,7 +309,7 @@ export function Navbar() {
 						onClick={() => handleScroll("#contact")}
 						role="menuitem"
 					>
-						Contact
+						Contacto
 					</Button>
 				</div>
 
@@ -325,7 +325,7 @@ export function Navbar() {
 						aria-expanded={mobileMenuOpen}
 						aria-haspopup="true"
 						aria-controls={mobileMenuId}
-						aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+						aria-label={mobileMenuOpen ? "Cerrar menu" : "Abrir menu"}
 					>
 						<span
 							ref={lineOneRef}
@@ -349,7 +349,7 @@ export function Navbar() {
 				ref={menuRef}
 				id={mobileMenuId}
 				role="menu"
-				aria-label="Mobile navigation"
+				aria-label="Navegacion movil"
 				className={cn(
 					"absolute top-full mt-2 w-full max-w-6xl px-2 lg:hidden",
 					mobileMenuOpen ? "pointer-events-auto" : "pointer-events-none",
@@ -380,7 +380,7 @@ export function Navbar() {
 						onClick={() => handleScroll("#contact")}
 						role="menuitem"
 					>
-						Contact
+						Contacto
 					</Button>
 				</div>
 			</div>

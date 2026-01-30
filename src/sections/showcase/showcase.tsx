@@ -8,10 +8,10 @@ export default function Showcase() {
 	return (
 		<Section
 			id="showcase"
-			title="Highlight signature work or video studies"
-			description="Use these slots for showreels, filmed prototypes, or any captures that provide extra context for your process."
+			title="Destaca trabajos clave o estudios en video"
+			description="Usa estos espacios para showreels, prototipos filmados o capturas que den mas contexto a tu proceso."
 			className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:auto-rows-[220px]"
-			badgeText="Showcase"
+			badgeText="Galeria"
 			badgeIcon={<CubeIcon aria-hidden="true" className="size-3.5" />}
 		>
 			{showcaseHighlights.map(

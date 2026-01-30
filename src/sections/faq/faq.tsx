@@ -31,10 +31,10 @@ export default function FAQ() {
 	return (
 		<Section
 			id="faq"
-			title="Answer common pre-project questions"
-			description="Explain your process, timelines, and collaboration style so leads know what to expect before reaching out."
+			title="Responde preguntas comunes antes del proyecto"
+			description="Explica tu proceso, tiempos y estilo de colaboracion para que sepan que esperar antes de escribirte."
 			className="flex flex-col gap-6"
-			badgeText="FAQ"
+			badgeText="Preguntas"
 			badgeIcon={
 				<QuestionMarkCircledIcon aria-hidden="true" className="size-3.5" />
 			}

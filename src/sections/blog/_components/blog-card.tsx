@@ -33,6 +33,7 @@ export default function BlogCard({ meta }: BlogCardProps) {
 	}, [meta.slug, queryClient, router]);
 
 	const formattedDate = formatDate(meta.date);
+	const formattedReadingTime = formatReadingTime(meta.readingTime);
 	const tags =
 		(meta.tags ?? []).filter(
 			(tag: string | null | undefined): tag is string =>
@@ -44,7 +45,7 @@ export default function BlogCard({ meta }: BlogCardProps) {
 			to="/blog/$slug"
 			params={{ slug: meta.slug }}
 			className="block h-full rounded-lg transition-shadow duration-100 ease-out-quad focus-visible:ring-1 focus-visible:ring-ring/50 focus-visible:ring-offset-1 focus-visible:ring-offset-ring-offset/50 focus-visible:outline-none"
-			aria-label={`Read article: ${meta.title}`}
+			aria-label={`Leer articulo: ${meta.title}`}
 			onMouseEnter={prefetchBlogRoute}
 			onFocus={prefetchBlogRoute}
 		>
@@ -52,7 +53,7 @@ export default function BlogCard({ meta }: BlogCardProps) {
 				<CardHeader className="space-y-2">
 					<div className="flex items-center justify-between text-xs text-foreground/45">
 						<span>{formattedDate}</span>
-						<span>{meta.readingTime}</span>
+						<span>{formattedReadingTime}</span>
 					</div>
 					<CardTitle className="text-balance leading-normal">
 						{meta.title}
@@ -86,9 +87,17 @@ function formatDate(date: string) {
 	if (!date) return "";
 	const parsed = new Date(date);
 	if (Number.isNaN(parsed.getTime())) return "";
-	return new Intl.DateTimeFormat("en-US", {
+	return new Intl.DateTimeFormat("es-ES", {
 		month: "long",
 		day: "numeric",
 		year: "numeric",
 	}).format(parsed);
+}
+
+function formatReadingTime(readingTime: string) {
+	if (!readingTime) return "";
+	return readingTime
+		.replace("less than", "menos de")
+		.replace("mins read", "min de lectura")
+		.replace("min read", "min de lectura");
 }

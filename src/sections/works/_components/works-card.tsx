@@ -33,7 +33,7 @@ export default function WorksCard({
 
 					<Button asChild size="sm" variant="secondary">
 						<a href={link} target="_blank" rel="noreferrer">
-							View project
+							Ver proyecto
 						</a>
 					</Button>
 				</div>

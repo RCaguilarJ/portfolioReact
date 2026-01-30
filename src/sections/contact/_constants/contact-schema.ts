@@ -3,21 +3,21 @@ import { z } from "zod";
 export const contactSchema = z.object({
 	firstName: z
 		.string()
-		.min(2, "Add at least two characters for your first name.")
-		.max(60, "That's a bit too long—shorten your first name."),
+		.min(2, "Agrega al menos dos caracteres para tu nombre.")
+		.max(60, "Es muy largo; acorta tu nombre."),
 	lastName: z
 		.string()
-		.min(2, "Add at least two characters for your last name.")
-		.max(60, "That's a bit too long—shorten your last name."),
-	email: z.email("Use a valid email so someone can reply."),
+		.min(2, "Agrega al menos dos caracteres para tu apellido.")
+		.max(60, "Es muy largo; acorta tu apellido."),
+	email: z.email("Usa un correo valido para poder responderte."),
 	subject: z
 		.string()
-		.min(2, "Add a short hint about the project.")
-		.max(120, "Keep the subject brief."),
+		.min(2, "Agrega una breve pista sobre el proyecto.")
+		.max(120, "Manten el asunto breve."),
 	message: z
 		.string()
-		.min(10, "Share a bit more about the challenge.")
-		.max(2_000, "Keep the first message concise."),
+		.min(10, "Comparte un poco mas sobre el reto.")
+		.max(2_000, "Manten el primer mensaje conciso."),
 });
 
 export type ContactFormValues = z.infer<typeof contactSchema>;

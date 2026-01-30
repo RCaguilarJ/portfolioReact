@@ -183,7 +183,7 @@ export default function Hero() {
 				<div style={{visibility: "hidden"}} ref={badgeRef} className="w-fit">
 					<ShinyBadge>
 						<FrameIcon aria-hidden="true" className="size-3.5" />
-						Your Role Here
+						Tu rol aqui
 					</ShinyBadge>
 				</div>
 				<h1
@@ -191,15 +191,15 @@ export default function Hero() {
 					ref={titleRef}
 					className="text-3xl text-center text-foreground font-medium text-balance max-w-3xl"
 				>
-					Add a headline that tells people what you design, build, or launch.
+					Agrega un titular que diga lo que disenas, construyes o lanzas.
 				</h1>
 				<p
 		      style={{visibility: "hidden"}}
 					ref={descriptionRef}
 					className="text-base md:text-lg text-center text-foreground/70 font-medium text-balance leading-relaxed max-w-xl"
 				>
-					Use this paragraph to summarize your craft, industries served, or the
-					results clients can expect when working with you.
+					Usa este parrafo para resumir tu oficio, las industrias que atiendes o
+					los resultados que los clientes pueden esperar al trabajar contigo.
 				</p>
 			</div>
 			<div ref={actionsRef} className="relative z-10  flex items-center gap-2">
@@ -209,7 +209,7 @@ export default function Hero() {
 					size="md"
 					onClick={() => scrollTo("#contact")}
 				>
-					Start a project
+					Iniciar un proyecto
 				</Button>
 				<Button
 		      style={{visibility: "hidden"}}
@@ -217,7 +217,7 @@ export default function Hero() {
 					size="md"
 					onClick={() => scrollTo("#works")}
 				>
-					View portfolio
+					Ver portafolio
 				</Button>
 			</div>
 

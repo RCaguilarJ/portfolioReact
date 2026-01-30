@@ -8,14 +8,14 @@ export interface WorksItem {
 export const works: WorksItem[] = [
 	{
 		image: "/placeholder-1.jpg",
-		title: "Project 1",
-		description: "Project Description.",
+		title: "Proyecto 1",
+		description: "Descripcion del proyecto.",
 		link: "https://example.com/project-1",
 	},
 	{
 		image: "/placeholder-1.jpg",
-		title: "Project 2",
-		description: "Project Description.",
+		title: "Proyecto 2",
+		description: "Descripcion del proyecto.",
 		link: "https://example.com/project-2",
 	},
 ];

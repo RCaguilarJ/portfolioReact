@@ -56,15 +56,15 @@ export function ContactMessageEmail({ data }: ContactMessageEmailProps) {
 	return (
 		<Html>
 			<Head />
-			<Preview>New contact inquiry from {fullName || "your site"}.</Preview>
+			<Preview>Nueva consulta de contacto de {fullName || "tu sitio"}.</Preview>
 			<Body style={styles.body}>
 				<Container style={styles.container}>
 					<Heading as="h2">
-						New inquiry from {fullName || "your portfolio"}
+						Nueva consulta de {fullName || "tu portafolio"}
 					</Heading>
 					<Text style={{ color: "#475569", fontSize: "15px" }}>
-						You have a new request from your portfolio contact form. Here are
-						the details:
+						Tienes una nueva solicitud desde el formulario de contacto de tu
+						portafolio. Aqui estan los detalles:
 					</Text>
 					<Section style={styles.divider} />
 					<table
@@ -75,22 +75,22 @@ export function ContactMessageEmail({ data }: ContactMessageEmailProps) {
 					>
 						<tbody>
 							<tr>
-								<td style={styles.tableCellLabel}>Name</td>
+								<td style={styles.tableCellLabel}>Nombre</td>
 								<td style={styles.tableCellValue}>{fullName}</td>
 							</tr>
 							<tr>
-								<td style={styles.tableCellLabel}>Email</td>
+								<td style={styles.tableCellLabel}>Correo</td>
 								<td style={styles.tableCellValue}>{data.email}</td>
 							</tr>
 							<tr>
-								<td style={styles.tableCellLabel}>Subject</td>
+								<td style={styles.tableCellLabel}>Asunto</td>
 								<td style={styles.tableCellValue}>{data.subject}</td>
 							</tr>
 						</tbody>
 					</table>
 					<Section style={styles.divider} />
 					<Heading as="h3" style={{ fontSize: "16px", marginBottom: "8px" }}>
-						Message
+						Mensaje
 					</Heading>
 					<Text
 						style={{
