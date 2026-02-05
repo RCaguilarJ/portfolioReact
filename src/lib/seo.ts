@@ -38,8 +38,8 @@ export type BlogSeoPayload = {
 };
 
 const SITE_URL = "https://your-domain.com";
-const SITE_NAME = "Tu nombre";
-const DEFAULT_TITLE = "Tu nombre - Tu rol";
+const SITE_NAME = "Carlos Aguilar";
+const DEFAULT_TITLE = "Carlos Aguilar - WEB DEVELOPER";
 const DEFAULT_DESCRIPTION =
 	"Usa este espacio para describir el tipo de trabajo que haces, las industrias que atiendes y lo que hace unico tu enfoque.";
 const DEFAULT_KEYWORDS = [

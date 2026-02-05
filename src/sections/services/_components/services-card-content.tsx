@@ -72,10 +72,10 @@ export function ServicesCardContent({
 }
 
 const Notification = ({ name, description }: ServiceItem) => (
-	<Card className="relative mx-auto flex w-full flex-col p-4 bg-card-elevated">
+	<div className="relative mx-auto flex w-full flex-col rounded-lg border border-border/40 bg-card-elevated p-4 shadow-sm">
 		<CardTitle className="text-sm">{name}</CardTitle>
 		<CardDescription className="text-xs">{description}</CardDescription>
-	</Card>
+	</div>
 );
 
 const AnimatedListItem = ({

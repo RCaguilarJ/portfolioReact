@@ -1,5 +1,5 @@
 import type { MouseEvent } from "react";
-import { LogoIcon } from "@/components/icons/logo-icon";
+import { EyeLogoIcon } from "@/components/icons/eye-logo-icon";
 import { useLenis } from "@/lib/lenis-context";
 import {
 	footerLinks,
@@ -24,8 +24,8 @@ export default function Footer() {
 				<div className="flex flex-col gap-4">
 					<div className="flex flex-col gap-3">
 						<div className="flex gap-2 items-center text-foreground">
-							<LogoIcon className="size-4" />
-							<p className="text-sm font-medium">Tu nombre</p>
+							<EyeLogoIcon className="size-4" />
+							<p className="text-sm font-medium">Carlos Aguilar</p>
 						</div>
 						<p className="text-xs text-foreground/70 leading-relaxed max-w-xs">
 							Usa este texto de ejemplo para describir tu enfoque, nicho o el
@@ -70,7 +70,7 @@ export default function Footer() {
 			<div className="text-xs text-foreground/70 border-t border-border/80">
 				<div className="w-full md:max-w-5xl mx-auto flex flex-col md:flex-row gap-1 px-4 py-4 md:px-2 items-center justify-between">
 					<p>
-						(c) {currentYear} Tu nombre. Actualiza este texto del pie para que
+						(c) {currentYear} Carlos Aguilar. Actualiza este texto del pie para que
 						coincida con tu marca.
 					</p>
 					<p>

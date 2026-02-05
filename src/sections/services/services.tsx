@@ -8,10 +8,13 @@ export default function Services() {
 	return (
 		<Section
 			id="services"
-			title="Muestra los servicios que ofreces"
-			description="Resume el tipo de proyectos que tomas, las herramientas que usas o los problemas que ayudas a resolver."
+			title="Conocimiento adquirido"
+			description="Durante mi trayectoria, he desarrollado habilidades en diversas áreas como 
+			desarrollador web, comenzando con wordpress hasta llegar a proyectos full stack
+			que resuelven problematicas del día a día, asi como el buen uso de la IA apoyandome
+			con cosas puntuales para acelerar el proceso."
 			className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
-			badgeText="Lo que haces"
+			badgeText="¿Qué es lo que sé hacer?"
 			badgeIcon={<StarIcon aria-hidden="true" />}
 		>
 			{serviceFeatures.map((feature) => {

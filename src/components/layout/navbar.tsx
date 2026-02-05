@@ -1,6 +1,6 @@
 import { useGSAP } from "@gsap/react";
 import { useEffect, useId, useRef, useState } from "react";
-import { LogoIcon } from "@/components/icons/logo-icon";
+import { EyeLogoIcon } from "@/components/icons/eye-logo-icon";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import {
@@ -275,8 +275,8 @@ export function Navbar() {
 					role="menuitem"
 				>
 					<div className="flex items-center gap-2">
-						<LogoIcon className="size-4" />
-						<span>Tu nombre</span>
+						<EyeLogoIcon className="size-4" />
+						<span>Carlos Aguilar</span>
 					</div>
 				</Button>
 

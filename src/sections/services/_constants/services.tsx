@@ -96,82 +96,80 @@ export const serviceItems: ServiceItem[] = [
 
 export const bestPractices: ServiceItem[] = [
 	{
-		name: "Principio 01 - Lidera con resultados",
+		name: "Principio 01 - Liderar con resultados",
 		description:
-			"Un recordatorio para mencionar el cambio medible que logras, no solo las herramientas que usas para llegar alli.",
+			"Al coordinar un equipo en un proyecto extenso donde se involucran diseñadores gráficos, especialistas en figma, front y back engineer suelo usar herramientas como JIRA o TRELLO para llevar un control con y resultados del avance del mismo.Oportunidad que se me dió por unica vez y fui reconocido por mi desempeño.",
 	},
 	{
-		name: "Principio 02 - Mantener a los equipos al tanto",
+		name: "Principio 02 - Apegarme al diseño y cronograma",
 		description:
-			"Sugiere como manejas actualizaciones semanales, notas asincronas o resumenes en Loom para que los clientes sepan que avanza.",
+			"Los tiempos y el resultado del proyecto son fundamentales para cumplir con las expectativas del cliente y mantener la calidad dandonos a distinguir de las demas empresas.",
 	},
 	{
-		name: "Principio 03 - Disenar para el handoff",
+		name: "Herramientas de despliegue ",
 		description:
-			"Explica como empaquetas entregables, documentacion o grabaciones para que el trabajo sea facil de ampliar mas adelante.",
+			"Cuando el área de DevOps se atrasa pero necesitas ver en producción los resultados y el flujo de tu proyecto, me vi en la necesidad de buscar alternativas como vercel y ngrok para asegurarme de que el flujo fuera el correcto antes de lanzarlo a las primeras etapas de producción.",
 	},
 	{
 		name: "Principio 04 - Prototipar temprano",
 		description:
-			"Invita a referenciar los prototipos, sandboxes o experimentos que sueles hacer al inicio.",
+			"Desde que mandan el Figma, comienzo a prototipar para validar ideas y obtener feedback rápido y acelerar de manera eficiente el proyecto.",
 	},
 	{
 		name: "Principio 05 - Cuidar los detalles",
 		description:
-			"Usa este espacio para contar tu obsesion por la accesibilidad, el pulido o la animacion que te diferencia.",
+			"Los detalles son fundamentales para garantizar la calidad y la satisfacción del cliente, incluso los que él mismo no nota; asi como una buena estructura en la base de datos o las buenas prácticas del código ya sea del front o del back y estas son de las cosas que más me obsecionan.",
 	},
 	{
 		name: "Principio 06 - Construir para el cambio",
 		description:
-			"Recuerda que mantienes la arquitectura flexible, lista para el futuro y preparada para lo que pida la V2.",
+			"Siempre hay  que mantiener la arquitectura flexible y escalable, lista para el futuro y preparada para lo que pida la V2.",
 	},
 	{
 		name: "Principio 07 - Documentar el camino",
 		description:
-			"Cuenta como capturas aprendizajes, escribes notas internas o compartes looms que aclaran decisiones clave.",
+			"Documentar y describir cada paso que das son de las cosas más esenciales en este rubro, ya que de esa manera se facilita la colaboración y el mantenimiento a largo plazo.",
 	},
 	{
 		name: "Principio 08 - Probar sin descanso",
 		description:
-			"Reserva este punto para tu cadencia de QA, herramientas o rituales de revision antes de publicar.",
+			"Hace pruebas exhaustivas para asegurar la calidad y funcionalidad del producto antes de su lanzamiento es lo que garantiza el éxito del proyecto.",
 	},
 	{
 		name: "Principio 09 - Colaborar abiertamente",
 		description:
-			"Menciona la cadencia de workshops, horas de oficina o standups asincronos que llevas con socios de producto.",
+			"Siempre me a gustado apoyar a miembros de mi equipo explicando cosas que me pidan que les explique de la manera que a mí me hubiera gustado que lo hicieran.",
 	},
 	{
 		name: "Principio 10 - Iterar despues del lanzamiento",
 		description:
-			"Destaca como te mantienes cerca de analiticas, feedback de usuarios o datos de retencion para planear el siguiente release.",
+			"Mantenerce cerca de analiticas, feedback de usuarios o datos de retencion son esenciales para planear el siguiente release y llenar las expectivas tanto del cliente como del usuario.",
 	},
 ];
 
 export const serviceFeatures: ServiceFeature[] = [
-	{
-		name: "Resumen del servicio",
-		description:
-			"Cambia por un texto corto que explique que tipos de proyectos tomas y como pueden contratarte.",
-		href: "#",
-		className: "col-span-1",
-		background: <ServicesCardContent items={serviceItems} />,
-	},
-
-	{
-		name: "De diseno a desarrollo",
-		description:
-			"Usa este bloque para describir como traduces tableros de Figma, presentaciones o briefs en trabajo listo para produccion.",
-		href: "#",
-		className: "col-span-1",
-		background: <ConvertingCardContent icons={convertingCardIcons} />,
-	},
-
-	{
-		name: "Estandares de codigo",
-		description:
-			"Describe los valores de ingenieria, rituales de revision o lineamientos que mantienen tu trabajo sostenible.",
-		href: "#",
-		className: "col-span-1",
-		background: <CleanCodeCardContent items={bestPractices} />,
-	},
+       {
+	       name: "Habilidades adquiridas",
+	       description:
+		       "Lo que eh aprendido con el tiempo creando proyectos desde cero tanto en desarrollo como en wordpress.",
+	       href: "#",
+	       className: "col-span-1",
+	       background: <ServicesCardContent items={bestPractices} delay={4500} maxVisible={6} />,
+       },
+       {
+	       name: "De diseno a desarrollo",
+	       description:
+		       "Replicamos el diseño de fgma, analizo las herramientas necesarias y escalables a utilizar, se empieza a codificar, creamos repositorios para pruebas locales y posteriormente se despliega en producción.",
+	       href: "#",
+	       className: "col-span-1",
+	       background: <ConvertingCardContent icons={convertingCardIcons} />,
+       },
+       {
+	       name: "Estandares de codigo",
+	       description:
+		       "Describe los valores de ingenieria, rituales de revision o lineamientos que mantienen tu trabajo sostenible.",
+	       href: "#",
+	       className: "col-span-1",
+	       background: <CleanCodeCardContent items={bestPractices} />,
+       },
 ];

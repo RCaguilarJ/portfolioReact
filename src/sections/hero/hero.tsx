@@ -1,5 +1,5 @@
 import { useGSAP } from "@gsap/react";
-import { FrameIcon } from "@radix-ui/react-icons";
+import { EyeLogoIcon } from "@/components/icons/eye-logo-icon";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ShinyBadge } from "@/components/ui/shiny-badge";
@@ -181,43 +181,34 @@ export default function Hero() {
 		>
 			<div className="relative z-10 flex flex-col items-center gap-2">
 				<div style={{visibility: "hidden"}} ref={badgeRef} className="w-fit">
-					<ShinyBadge>
-						<FrameIcon aria-hidden="true" className="size-3.5" />
-						Tu rol aqui
-					</ShinyBadge>
+					       <ShinyBadge>
+						       <EyeLogoIcon aria-hidden="true" className="size-3.5" />
+						       WEB DEVELOPER
+					       </ShinyBadge>
 				</div>
-				<h1
-				  style={{visibility: "hidden"}}
-					ref={titleRef}
-					className="text-3xl text-center text-foreground font-medium text-balance max-w-3xl"
-				>
-					Agrega un titular que diga lo que disenas, construyes o lanzas.
-				</h1>
-				<p
-		      style={{visibility: "hidden"}}
-					ref={descriptionRef}
-					className="text-base md:text-lg text-center text-foreground/70 font-medium text-balance leading-relaxed max-w-xl"
-				>
-					Usa este parrafo para resumir tu oficio, las industrias que atiendes o
-					los resultados que los clientes pueden esperar al trabajar contigo.
-				</p>
+				       <h1
+					 style={{visibility: "hidden"}}
+					       ref={titleRef}
+					       className="text-3xl text-center text-foreground font-medium text-balance max-w-3xl"
+				       >
+						   desarrollo y diseño web full stack y wordpress
+				       </h1>
+				       <p
+					 style={{visibility: "hidden"}}
+					       ref={descriptionRef}
+					       className="text-base md:text-lg text-center text-foreground/70 font-medium text-balance leading-relaxed max-w-xl"
+				       >
+					       enfocado en proyectos full stack de javascript con frameworks como react y node js asii como amplio conociocimiento en wordpress
+				       </p>
 			</div>
-			<div ref={actionsRef} className="relative z-10  flex items-center gap-2">
-				<Button
-			    style={{visibility: "hidden"}}
-					variant="default"
-					size="md"
-					onClick={() => scrollTo("#contact")}
-				>
-					Iniciar un proyecto
-				</Button>
-				<Button
-		      style={{visibility: "hidden"}}
-					variant="secondary"
-					size="md"
-					onClick={() => scrollTo("#works")}
-				>
-					Ver portafolio
+			       <div ref={actionsRef} className="relative z-10  flex items-center gap-2">
+				       <Button
+					 style={{visibility: "hidden"}}
+					       variant="secondary"
+					       size="md"
+					       onClick={() => scrollTo("#works")}
+				       >
+					       Ver portafolio
 				</Button>
 			</div>
 
