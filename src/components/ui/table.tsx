@@ -15,7 +15,6 @@ import {
 } from "@tanstack/react-table";
 import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
-import { JSX } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Icons } from "@/lib/icons";
 import { cn } from "@/lib/utils";
