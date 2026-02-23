@@ -12,24 +12,35 @@ export default function ShowcaseCard({
 	return (
 		<Card className="relative w-full lg:h-full">
 			<div className="relative w-full aspect-video lg:h-full lg:aspect-auto p-1 rounded-lg">
-				<video
-					className="h-full w-full object-cover rounded-md overflow-hidden bg-card-elevated border border-border/80 p-0.5"
-					src={src}
-					poster={poster}
-					autoPlay
-					loop
-					muted
-					playsInline
-					preload="metadata"
-				/>
+				{src ? (
+					<video
+						className="h-full w-full object-cover rounded-md overflow-hidden bg-card-elevated border border-border/80 p-0.5"
+						src={src}
+						poster={poster}
+						autoPlay
+						loop
+						muted
+						playsInline
+						preload="metadata"
+					/>
+				) : (
+					<img
+						className="h-full w-full object-cover rounded-md overflow-hidden bg-card-elevated border border-border/80 p-0.5"
+						src={poster}
+						alt={title || "Showcase"}
+						loading="lazy"
+					/>
+				)}
 			</div>
 
-			<div className="absolute bottom-0 left-0 right-0 p-4">
-				<CardTitle className="text-primary">{title}</CardTitle>
-				<CardDescription className="text-primary/45">
-					{description}
-				</CardDescription>
-			</div>
+			{(title || description) && (
+				<div className="absolute bottom-0 left-0 right-0 p-4">
+					<CardTitle className="text-black">{title}</CardTitle>
+					<CardDescription className="text-black/70">
+						{description}
+					</CardDescription>
+				</div>
+			)}
 		</Card>
 	);
 }

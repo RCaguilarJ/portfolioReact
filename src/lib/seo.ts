@@ -66,7 +66,7 @@ export const absoluteUrl = (path = "/") => {
 };
 
 const DEFAULT_IMAGE = absoluteUrl("/og-image.jpg");
-const DEFAULT_LOGO = absoluteUrl("/favicon-96x96.png");
+const DEFAULT_LOGO = absoluteUrl("/favicon.svg");
 
 export const siteMetadata = {
 	siteName: SITE_NAME,
@@ -138,6 +138,7 @@ export function getRootSeo(): HeadTags {
 
 	const links: LinkTag[] = [
 		{ rel: "canonical", href: canonical },
+		{ rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
 		{ rel: "icon", href: "/favicon.ico" },
 		{ rel: "icon", href: "/favicon-96x96.png", sizes: "96x96" },
 		{ rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
