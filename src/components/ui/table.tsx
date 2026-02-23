@@ -15,6 +15,7 @@ import {
 } from "@tanstack/react-table";
 import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
+import { JSX } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Icons } from "@/lib/icons";
 import { cn } from "@/lib/utils";
@@ -378,7 +379,7 @@ export function Table<TData>({
 			className={cn(tableVariants({ density }), className)}
 			{...props}
 		>
-			{table.getHeaderGroups().map((headerGroup) => (
+			{table.getHeaderGroups().map((headerGroup: ReturnType<typeof table.getHeaderGroups>[number]) => (
 				/* biome-ignore lint/a11y/useSemanticElements: Using div-based grid structure for responsive layout */
 				<div
 					key={headerGroup.id}
@@ -387,7 +388,7 @@ export function Table<TData>({
 					style={{ gridTemplateColumns }}
 					tabIndex={-1}
 				>
-					{headerGroup.headers.map((header) => {
+					{headerGroup.headers.map((header: typeof headerGroup.headers[number]) => {
 						if (header.isPlaceholder) {
 							return <div key={header.id} />;
 						}
@@ -487,7 +488,7 @@ export function Table<TData>({
 					</div>
 				)}
 
-				{rows.map((row) => {
+				{rows.map((row: typeof rows[number]) => {
 					const rowMetaId = `row-${row.id}`;
 					const isActive = activeCompositeId === rowMetaId;
 					return (
@@ -505,14 +506,14 @@ export function Table<TData>({
 								}),
 							)}
 							onClick={() => onRowClick?.(row)}
-							onKeyDown={(event) => {
+							onKeyDown={(event: React.KeyboardEvent) => {
 								if (!onRowClick) return;
 								if (event.key === "Enter" || event.key === " ") {
 									event.preventDefault();
 									onRowClick(row);
 								}
 							}}
-							render={(itemProps) => (
+							render={(itemProps: React.HTMLAttributes<HTMLDivElement>) => (
 								<div
 									{...itemProps}
 									style={{ ...itemProps.style, gridTemplateColumns }}
