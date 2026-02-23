@@ -37,7 +37,7 @@ export type BlogSeoPayload = {
 	date?: string;
 };
 
-const SITE_URL = "https://your-domain.com";
+const SITE_URL = "https://my-portfolio-proyect-gulzk2vto-carlagular800-5846s-projects.vercel.app";
 const SITE_NAME = "Carlos Aguilar";
 const DEFAULT_TITLE = "Carlos Aguilar - WEB DEVELOPER";
 const DEFAULT_DESCRIPTION =
@@ -50,7 +50,7 @@ const DEFAULT_KEYWORDS = [
 	"disenador",
 ];
 const AUTHOR = "your-handle";
-const CONTACT_EMAIL = "hello@your-domain.com";
+const CONTACT_EMAIL = "hello@vercel.app";
 const SOCIAL_PROFILES = [
 	"https://github.com/your-handle",
 	"https://www.linkedin.com/in/your-profile",
