@@ -46,5 +46,8 @@ export default defineConfig(({ command, mode }) => {
         providerImportSource: "@mdx-js/react",
       }),
     ],
+    build: {
+      chunkSizeWarningLimit: 1000, // Increase chunk size limit to 1000 KB
+    },
   };
 });

@@ -10,7 +10,14 @@ import Testimonials from "@/sections/testimonials/testimonials";
 import Works from "@/sections/works/works";
 
 export const Route = createFileRoute("/")({
-	loader: () => getAllPostsMeta(),
+	loader: async () => {
+		try {
+			return await getAllPostsMeta();
+		} catch (error) {
+			console.error("Error loading posts:", error);
+			return [];
+		}
+	},
 	component: App,
 });
 
