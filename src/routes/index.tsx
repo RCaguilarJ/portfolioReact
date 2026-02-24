@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { getAllPostsMeta } from "@/sections/blog/_server/posts";
 import Blog from "@/sections/blog/blog";
-import Contact from "@/sections/contact/contact";
 import FAQ from "@/sections/faq/faq";
 import Footer from "@/sections/footer/footer";
 import Hero from "@/sections/hero/hero";
@@ -26,7 +25,6 @@ function App() {
 			<Testimonials />
 			<FAQ />
 			<Blog posts={posts} />
-			<Contact />
 			<Footer />
 		</main>
 	);
