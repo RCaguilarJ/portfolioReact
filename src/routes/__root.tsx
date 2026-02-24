@@ -28,7 +28,13 @@ export const Route = createRootRoute({
 			scripts,
 		};
 	},
-	loader: () => getThemeServerFn(),
+	loader: async () => {
+		try {
+			return await getThemeServerFn();
+		} catch {
+			return "dark" as const;
+		}
+	},
 	notFoundComponent: NotFound,
 	shellComponent: RootDocument,
 });

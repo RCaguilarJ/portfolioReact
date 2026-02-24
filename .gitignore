@@ -6,6 +6,7 @@ node_modules/
 .pnpm-store/
 .pnp
 .pnp.js
+package-lock.json
 
 # Build output
 dist/
