@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link } from "react-router";
 import { Button } from "@/components/ui/button";
 import { ShinyBadge } from "@/components/ui/shiny-badge";
 import { Background } from "@/sections/hero/_components/background";
@@ -24,9 +24,7 @@ export function NotFound() {
 						<Link to="/">Volver al inicio</Link>
 					</Button>
 					<Button asChild variant="secondary" size="md">
-						<Link to="/" hash="works">
-							Ver proyectos
-						</Link>
+						<Link to="/#works">Ver proyectos</Link>
 					</Button>
 				</div>
 			</div>

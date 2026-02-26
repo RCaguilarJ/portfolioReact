@@ -1,31 +1,45 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { createFileRoute, notFound } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
+import type { ComponentType } from "react";
 import { Suspense } from "react";
+import { useParams } from "react-router";
 import { NotFound } from "@/components/not-found";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { getBlogPostSeo, getRootSeo } from "@/lib/seo";
-import { blogPostQueryOptions } from "@/sections/blog/_queries/posts";
-import { getAllPostsMeta, type PostMeta } from "@/sections/blog/_server/posts";
+import { getAllPostsMeta, type PostMeta } from "@/lib/posts";
 import Footer from "@/sections/footer/footer";
 import { Background } from "@/sections/hero/_components/background";
 
-export const Route = createFileRoute("/blog/$slug")({
-	loader: async ({ params }) => {
-		const all = await getAllPostsMeta();
-		const meta = all.find((p: PostMeta) => p.slug === params.slug);
-		if (!meta) throw notFound();
-		return meta;
-	},
-	head: ({ loaderData }) =>
-		loaderData ? getBlogPostSeo(loaderData) : getRootSeo(),
-	notFoundComponent: NotFound,
-	component: BlogPost,
-});
+const postModules = import.meta.glob<{ default: ComponentType }>(
+	"../../content/posts/*.mdx",
+);
 
-function BlogPost() {
-	const meta = Route.useLoaderData();
-	const { slug } = Route.useParams();
+const getBlogPost = async (slug: string) => {
+	const importer = postModules[`../../content/posts/${slug}.mdx`];
+	if (!importer) {
+		throw new Error(`Post with slug "${slug}" not found`);
+	}
+	const module = await importer();
+	return module.default;
+};
+
+export default function BlogPostPage() {
+	const { slug } = useParams();
+
+	const { data: posts = [], isLoading: loadingPosts } = useQuery({
+		queryKey: ["posts"],
+		queryFn: getAllPostsMeta,
+	});
+
+	const meta = posts.find((p: PostMeta) => p.slug === slug);
+
+	if (loadingPosts) {
+		return <BlogPostSkeleton />;
+	}
+
+	if (!meta) {
+		return <NotFound />;
+	}
+
 	const publishedDate = meta.date ? new Date(meta.date) : null;
 	const formattedDate =
 		publishedDate && !Number.isNaN(publishedDate.getTime())
@@ -35,6 +49,7 @@ function BlogPost() {
 					year: "numeric",
 				}).format(publishedDate)
 			: "";
+
 	const tags: string[] =
 		(meta.tags ?? []).filter(
 			(tag: string | null | undefined): tag is string =>
@@ -87,7 +102,7 @@ function BlogPost() {
 				<section className="mx-auto flex w-full max-w-5xl flex-col px-4 py-8 md:p-8 md:border-x border-b border-border/80 border-dashed">
 					<div className="min-h-[200px]">
 						<Suspense fallback={<ArticleSkeleton />}>
-							<PostContent slug={slug} />
+							<PostContent slug={slug!} />
 						</Suspense>
 					</div>
 				</section>
@@ -98,7 +113,12 @@ function BlogPost() {
 }
 
 function PostContent({ slug }: { slug: string }) {
-	const { data: Post } = useSuspenseQuery(blogPostQueryOptions(slug));
+	const { data: Post } = useQuery({
+		queryKey: ["blog-post", slug],
+		queryFn: () => getBlogPost(slug),
+		staleTime: 1000 * 60 * 5,
+	});
+	if (!Post) return null;
 	return <Post />;
 }
 
@@ -148,5 +168,20 @@ function ArticleSkeleton() {
 				))}
 			</div>
 		</div>
+	);
+}
+
+function BlogPostSkeleton() {
+	return (
+		<main className="mx-auto flex w-full flex-col items-center justify-start md:w-7xl md:border-x border-border divide-y divide-border/80">
+			<div className="relative w-full overflow-hidden border-b border-border/80">
+				<div className="h-[55vh] md:h-[50vh] w-full pointer-events-none">
+					<Background />
+				</div>
+			</div>
+			<section className="mx-auto flex w-full max-w-5xl flex-col px-4 py-8 md:p-8 md:border-x border-b border-border/80 border-dashed">
+				<ArticleSkeleton />
+			</section>
+		</main>
 	);
 }

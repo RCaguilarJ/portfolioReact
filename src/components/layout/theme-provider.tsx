@@ -8,15 +8,27 @@ import {
 	useEffect,
 	useState,
 } from "react";
-import { setThemeServerFn, type T as Theme } from "@/lib/theme";
+
+type Theme = "light" | "dark";
 
 type ThemeContextVal = { theme: Theme; setTheme: (val: Theme) => void };
-type Props = PropsWithChildren<{ theme: Theme }>;
+type Props = PropsWithChildren;
 
 const ThemeContext = createContext<ThemeContextVal | null>(null);
 
-export function ThemeProvider({ children, theme }: Props) {
-	const [currentTheme, setCurrentTheme] = useState<Theme>(theme);
+const STORAGE_KEY = "_preferred-theme";
+
+function getInitialTheme(): Theme {
+	if (typeof window === "undefined") return "dark";
+	const stored = localStorage.getItem(STORAGE_KEY);
+	if (stored === "light" || stored === "dark") return stored;
+	return window.matchMedia("(prefers-color-scheme: light)").matches
+		? "light"
+		: "dark";
+}
+
+export function ThemeProvider({ children }: Props) {
+	const [theme, setThemeState] = useState<Theme>("dark");
 
 	const syncDomTheme = useCallback((nextTheme: Theme) => {
 		if (typeof document === "undefined") return;
@@ -27,27 +39,19 @@ export function ThemeProvider({ children, theme }: Props) {
 	}, []);
 
 	useEffect(() => {
-		setCurrentTheme(theme);
-		syncDomTheme(theme);
-	}, [theme, syncDomTheme]);
+		const initial = getInitialTheme();
+		setThemeState(initial);
+		syncDomTheme(initial);
+	}, [syncDomTheme]);
 
 	function setTheme(val: Theme) {
-		if (val === currentTheme) return;
-		const previousTheme = currentTheme;
-		setCurrentTheme(val);
+		if (val === theme) return;
+		setThemeState(val);
 		syncDomTheme(val);
-
-		setThemeServerFn({ data: val }).catch(() => {
-			setCurrentTheme(previousTheme);
-			syncDomTheme(previousTheme);
-		});
+		localStorage.setItem(STORAGE_KEY, val);
 	}
 
-	return (
-		<ThemeContext value={{ theme: currentTheme, setTheme }}>
-			{children}
-		</ThemeContext>
-	);
+	return <ThemeContext value={{ theme, setTheme }}>{children}</ThemeContext>;
 }
 
 export function useTheme() {

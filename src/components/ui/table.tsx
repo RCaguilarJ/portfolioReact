@@ -1,6 +1,5 @@
 "use client";
 
-import * as Ariakit from "@ariakit/react";
 import {
 	type ColumnDef,
 	type ColumnMeta,
@@ -20,7 +19,6 @@ import { Icons } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 declare module "@tanstack/react-table" {
-	// Allow consumers to configure presentation details on column definitions.
 	interface ColumnMeta<TData, TValue> {
 		align?: "left" | "center" | "right";
 		width?: number | string;
@@ -29,10 +27,6 @@ declare module "@tanstack/react-table" {
 		className?: string;
 		headerClassName?: string;
 		headerTooltip?: string;
-		/**
-		 * Phantom brand to reference generics and satisfy type checkers.
-		 * Not for public use.
-		 */
 		readonly __metaGenericsBrand__?: {
 			readonly data?: TData;
 			readonly value?: TValue;
@@ -123,11 +117,6 @@ const rowVariants = cva(
 		},
 	},
 );
-
-const compositeOptions = {
-	orientation: "vertical" as const,
-	focusLoop: false,
-};
 
 function resolveUpdater<T>(updater: T | ((old: T) => T), previous: T): T {
 	return typeof updater === "function"
@@ -270,7 +259,6 @@ export function Table<TData>({
 
 	const table = useReactTable(tableOptions);
 
-	/* biome-ignore lint/correctness/useExhaustiveDependencies: row selection callback must run when selection changes */
 	React.useEffect(() => {
 		if (!onSelectedRowsChange) return;
 		const selectedRows = table
@@ -279,11 +267,6 @@ export function Table<TData>({
 		onSelectedRowsChange(selectedRows);
 	}, [table, onSelectedRowsChange, rowSelection]);
 
-	const composite = Ariakit.useCompositeStore({
-		...compositeOptions,
-		defaultActiveId: null,
-	});
-	const activeCompositeId = Ariakit.useStoreState(composite, "activeId");
 	const tableRef = React.useRef<HTMLDivElement>(null);
 
 	const visibleColumns = table.getVisibleLeafColumns();
@@ -307,175 +290,112 @@ export function Table<TData>({
 
 	const rows = table.getRowModel().rows;
 
-	React.useEffect(() => {
-		if (activeRowId !== undefined) {
-			return;
-		}
-
-		composite.setActiveId(null);
-	}, [activeRowId, composite]);
-
-	React.useEffect(() => {
-		if (rows.length === 0) {
-			return;
-		}
-
-		const resolveCompositeId = (rowId: string) => `row-${rowId}`;
-
-		if (activeRowId !== undefined) {
-			const controlledId = resolveCompositeId(activeRowId);
-			if (activeCompositeId !== controlledId) {
-				composite.setActiveId(controlledId);
-			}
-			return;
-		}
-
-		const fallbackId = rows[0]?.id;
-		if (!fallbackId) {
-			return;
-		}
-
-		if (!activeCompositeId) {
-			return;
-		}
-
-		const isActiveRowPresent = rows.some(
-			(row) => resolveCompositeId(row.id) === activeCompositeId,
-		);
-		if (!isActiveRowPresent) {
-			composite.setActiveId(resolveCompositeId(fallbackId));
-		}
-	}, [activeRowId, rows, composite, activeCompositeId]);
-
-	React.useEffect(() => {
-		if (!onActiveRowChange) return;
-		const resolvedId = activeCompositeId?.replace(/^row-/, "");
-		onActiveRowChange(resolvedId);
-	}, [activeCompositeId, onActiveRowChange]);
-
-	React.useEffect(() => {
-		if (activeRowId !== undefined) {
-			return;
-		}
-
-		const handlePointerDown = (event: PointerEvent) => {
-			const target = event.target as Node | null;
-			if (!target) return;
-			if (!tableRef.current?.contains(target)) {
-				composite.setActiveId(null);
-			}
-		};
-
-		document.addEventListener("pointerdown", handlePointerDown);
-		return () => {
-			document.removeEventListener("pointerdown", handlePointerDown);
-		};
-	}, [activeRowId, composite]);
-
 	return (
 		<div
 			ref={tableRef}
 			className={cn(tableVariants({ density }), className)}
 			{...props}
 		>
-			{table.getHeaderGroups().map((headerGroup: ReturnType<typeof table.getHeaderGroups>[number]) => (
-				/* biome-ignore lint/a11y/useSemanticElements: Using div-based grid structure for responsive layout */
-				<div
-					key={headerGroup.id}
-					role="row"
-					className="grid border-b border-border/60 bg-card-muted/50 dark:bg-card-muted/30 rounded-t-lg"
-					style={{ gridTemplateColumns }}
-					tabIndex={-1}
-				>
-					{headerGroup.headers.map((header: typeof headerGroup.headers[number]) => {
-						if (header.isPlaceholder) {
-							return <div key={header.id} />;
-						}
+			{table
+				.getHeaderGroups()
+				.map(
+					(headerGroup: ReturnType<typeof table.getHeaderGroups>[number]) => (
+						<div
+							key={headerGroup.id}
+							role="row"
+							className="grid border-b border-border/60 bg-card-muted/50 dark:bg-card-muted/30 rounded-t-lg"
+							style={{ gridTemplateColumns }}
+							tabIndex={-1}
+						>
+							{headerGroup.headers.map(
+								(header: (typeof headerGroup.headers)[number]) => {
+									if (header.isPlaceholder) {
+										return <div key={header.id} />;
+									}
 
-						const column = header.column;
-						const meta = column.columnDef.meta as
-							| ColumnMeta<TData, unknown>
-							| undefined;
-						const align = meta?.align ?? "left";
-						const headerClassName = meta?.headerClassName;
-						const sortStateRaw = column.getIsSorted();
-						const sortStateVariant: "asc" | "desc" | "none" =
-							sortStateRaw === "asc" || sortStateRaw === "desc"
-								? sortStateRaw
-								: "none";
-						const canSort = enableSorting && column.getCanSort();
+									const column = header.column;
+									const meta = column.columnDef.meta as
+										| ColumnMeta<TData, unknown>
+										| undefined;
+									const align = meta?.align ?? "left";
+									const headerClassName = meta?.headerClassName;
+									const sortStateRaw = column.getIsSorted();
+									const sortStateVariant: "asc" | "desc" | "none" =
+										sortStateRaw === "asc" || sortStateRaw === "desc"
+											? sortStateRaw
+											: "none";
+									const canSort = enableSorting && column.getCanSort();
 
-						if (!canSort) {
-							return (
-								/* biome-ignore lint/a11y/useSemanticElements: Using div for flexible column header layout */
-								<div
-									key={header.id}
-									role="columnheader"
-									title={meta?.headerTooltip}
-									className={cn(
-										headerCellVariants({
-											align,
-											sortable: false,
-											sorted: "none",
-										}),
-										headerClassName,
-									)}
-									tabIndex={-1}
-								>
-									<span className="truncate text-xs font-medium">
-										{flexRender(
-											header.column.columnDef.header,
-											header.getContext(),
-										)}
-									</span>
-								</div>
-							);
-						}
+									if (!canSort) {
+										return (
+											<div
+												key={header.id}
+												role="columnheader"
+												title={meta?.headerTooltip}
+												className={cn(
+													headerCellVariants({
+														align,
+														sortable: false,
+														sorted: "none",
+													}),
+													headerClassName,
+												)}
+												tabIndex={-1}
+											>
+												<span className="truncate text-xs font-medium">
+													{flexRender(
+														header.column.columnDef.header,
+														header.getContext(),
+													)}
+												</span>
+											</div>
+										);
+									}
 
-						return (
-							/* biome-ignore lint/a11y/useSemanticElements: Sorting toggle needs button semantics */
-							<button
-								key={header.id}
-								type="button"
-								role="columnheader"
-								title={meta?.headerTooltip}
-								onClick={column.getToggleSortingHandler()}
-								aria-sort={
-									sortStateRaw === "asc"
-										? "ascending"
-										: sortStateRaw === "desc"
-											? "descending"
-											: "none"
-								}
-								className={cn(
-									headerCellVariants({
-										align,
-										sortable: true,
-										sorted: sortStateVariant,
-									}),
-									headerClassName,
-								)}
-							>
-								<span className="truncate text-xs font-medium">
-									{flexRender(
-										header.column.columnDef.header,
-										header.getContext(),
-									)}
-								</span>
-								<span className="ml-1 flex items-center justify-center">
-									<Icons.CaretSort
-										aria-hidden="true"
-										className="h-3.5 w-3.5 text-foreground/70"
-									/>
-								</span>
-							</button>
-						);
-					})}
-				</div>
-			))}
+									return (
+										<button
+											key={header.id}
+											type="button"
+											role="columnheader"
+											title={meta?.headerTooltip}
+											onClick={column.getToggleSortingHandler()}
+											aria-sort={
+												sortStateRaw === "asc"
+													? "ascending"
+													: sortStateRaw === "desc"
+														? "descending"
+														: "none"
+											}
+											className={cn(
+												headerCellVariants({
+													align,
+													sortable: true,
+													sorted: sortStateVariant,
+												}),
+												headerClassName,
+											)}
+										>
+											<span className="truncate text-xs font-medium">
+												{flexRender(
+													header.column.columnDef.header,
+													header.getContext(),
+												)}
+											</span>
+											<span className="ml-1 flex items-center justify-center">
+												<Icons.CaretSort
+													aria-hidden="true"
+													className="h-3.5 w-3.5 text-foreground/70"
+												/>
+											</span>
+										</button>
+									);
+								},
+							)}
+						</div>
+					),
+				)}
 
-			<Ariakit.Composite
-				store={composite}
+			<div
 				role="grid"
 				aria-rowcount={rows.length}
 				aria-colcount={visibleColumns.length}
@@ -487,63 +407,42 @@ export function Table<TData>({
 					</div>
 				)}
 
-				{rows.map((row: typeof rows[number]) => {
-					const rowMetaId = `row-${row.id}`;
-					const isActive = activeCompositeId === rowMetaId;
+				{rows.map((row: (typeof rows)[number]) => {
 					return (
-						<Ariakit.CompositeItem
+						<div
 							key={row.id}
-							id={rowMetaId}
 							role="row"
-							focusable
 							data-row-id={row.id}
 							aria-selected={row.getIsSelected() || undefined}
 							className={cn(
 								rowVariants({
 									selected: row.getIsSelected(),
-									active: isActive,
 								}),
 							)}
+							style={{ gridTemplateColumns }}
 							onClick={() => onRowClick?.(row)}
-							onKeyDown={(event: React.KeyboardEvent) => {
-								if (!onRowClick) return;
-								if (event.key === "Enter" || event.key === " ") {
-									event.preventDefault();
-									onRowClick(row);
-								}
-							}}
-							render={(itemProps: React.HTMLAttributes<HTMLDivElement>) => (
-								<div
-									{...itemProps}
-									style={{ ...itemProps.style, gridTemplateColumns }}
-								>
-									{row.getVisibleCells().map((cell) => {
-										const meta = cell.column.columnDef.meta as
-											| ColumnMeta<TData, unknown>
-											| undefined;
-										const align = meta?.align ?? "left";
+						>
+							{row.getVisibleCells().map((cell) => {
+								const meta = cell.column.columnDef.meta as
+									| ColumnMeta<TData, unknown>
+									| undefined;
+								const align = meta?.align ?? "left";
 
-										return (
-											/* biome-ignore lint/a11y/useSemanticElements: Using div gridcells for layout flexibility */
-											<div
-												key={cell.id}
-												role="gridcell"
-												className={cn(cellVariants({ align }), meta?.className)}
-												tabIndex={-1}
-											>
-												{flexRender(
-													cell.column.columnDef.cell,
-													cell.getContext(),
-												)}
-											</div>
-										);
-									})}
-								</div>
-							)}
-						/>
+								return (
+									<div
+										key={cell.id}
+										role="gridcell"
+										className={cn(cellVariants({ align }), meta?.className)}
+										tabIndex={-1}
+									>
+										{flexRender(cell.column.columnDef.cell, cell.getContext())}
+									</div>
+								);
+							})}
+						</div>
 					);
 				})}
-			</Ariakit.Composite>
+			</div>
 		</div>
 	);
 }

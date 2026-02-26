@@ -1,8 +1,7 @@
 "use client";
 
-import * as Ariakit from "@ariakit/react";
 import { cva, type VariantProps } from "class-variance-authority";
-import type React from "react";
+import * as React from "react";
 import { Icons } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
@@ -84,7 +83,7 @@ export interface CheckboxProps
 }
 
 export const Checkbox: React.FC<CheckboxProps> = ({
-	checked,
+	checked: controlledChecked,
 	onCheckedChange,
 	defaultChecked,
 	size = "md",
@@ -93,30 +92,20 @@ export const Checkbox: React.FC<CheckboxProps> = ({
 	id,
 	...props
 }) => {
-	let propsForStore: Parameters<typeof Ariakit.useCheckboxStore<boolean>>[0];
-	if (typeof checked !== "undefined") {
-		if (onCheckedChange) {
-			propsForStore = {
-				value: checked,
-				setValue: (value) => {
-					const bool = Array.isArray(value) ? value.length > 0 : Boolean(value);
-					onCheckedChange(bool);
-				},
-			};
-		} else {
-			propsForStore = { value: checked };
-		}
-	} else {
-		propsForStore = { defaultValue: Boolean(defaultChecked) };
-	}
-	const store = Ariakit.useCheckboxStore<boolean>(propsForStore);
+	const [internalChecked, setInternalChecked] = React.useState(
+		defaultChecked ?? false,
+	);
 
-	const isChecked = Ariakit.useStoreState(store, "value");
-	const { name, autoFocus, ...restProps } = props;
-	const checkboxProps = {
-		...restProps,
-		...(typeof name === "undefined" ? {} : { name }),
-		...(typeof autoFocus === "undefined" ? {} : { autoFocus }),
+	const isControlled = controlledChecked !== undefined;
+	const isChecked = isControlled ? controlledChecked : internalChecked;
+
+	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		if (disabled) return;
+		const newValue = event.target.checked;
+		if (!isControlled) {
+			setInternalChecked(newValue);
+		}
+		onCheckedChange?.(newValue);
 	};
 
 	return (
@@ -127,12 +116,14 @@ export const Checkbox: React.FC<CheckboxProps> = ({
 			)}
 			htmlFor={id}
 		>
-			<Ariakit.Checkbox
-				store={store}
+			<input
+				type="checkbox"
 				className="sr-only"
 				disabled={disabled}
 				id={id}
-				{...checkboxProps}
+				checked={isChecked}
+				onChange={handleChange}
+				{...props}
 			/>
 			<Icons.Check
 				aria-hidden="true"

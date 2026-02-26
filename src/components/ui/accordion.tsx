@@ -1,8 +1,14 @@
 "use client";
 
-import * as Ariakit from "@ariakit/react";
 import { cva, type VariantProps } from "class-variance-authority";
-import React, { createContext, useCallback, useContext, useMemo } from "react";
+import React, {
+	createContext,
+	useCallback,
+	useContext,
+	useId,
+	useMemo,
+	useState,
+} from "react";
 import { Icons } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
@@ -24,16 +30,11 @@ const accordionItemVariants = cva(
 		variants: {
 			variant: {
 				default: "border-b border-border/80 last:border-b-0",
-				card: "rounded-lg [&:has(:focus-visible)]:ring-1 [&:has(:focus-visible)]:ring-ring/50 [&:has(:focus-visible)]:ring-offset-1 [&:has(:focus-visible)]:ring-offset-ring-offset/50 [&:has(:focus-visible)]:outline-none",
-			},
-			isOpen: {
-				true: "",
-				false: "",
+				card: "rounded-lg",
 			},
 		},
 		defaultVariants: {
 			variant: "default",
-			isOpen: false,
 		},
 	},
 );
@@ -43,9 +44,8 @@ const accordionTriggerVariants = cva(
 	{
 		variants: {
 			variant: {
-				default:
-					"focus-visible:ring-1 focus-visible:ring-ring/50 focus-visible:ring-offset-1 focus-visible:ring-offset-ring-offset/50 focus-visible:outline-none",
-				card: "focus-visible:ring-0 focus-visible:outline-none",
+				default: "px-0",
+				card: "px-4 py-3",
 			},
 			size: {
 				sm: "text-xs",
@@ -56,53 +56,11 @@ const accordionTriggerVariants = cva(
 				true: "cursor-not-allowed opacity-50",
 				false: "cursor-pointer",
 			},
-			isOpen: {
-				true: "",
-				false: "",
-			},
 		},
-		compoundVariants: [
-			{
-				variant: "default",
-				size: "sm",
-				class: "px-0 py-2",
-			},
-			{
-				variant: "default",
-				size: "md",
-				class: "px-0 py-3",
-			},
-			{
-				variant: "default",
-				size: "lg",
-				class: "px-0 py-4",
-			},
-			{
-				variant: "card",
-				size: "sm",
-				class: "px-3 py-2",
-			},
-			{
-				variant: "card",
-				size: "md",
-				class: "px-4 py-3",
-			},
-			{
-				variant: "card",
-				size: "lg",
-				class: "px-5 py-4",
-			},
-			{
-				variant: "card",
-				isOpen: true,
-				class: "",
-			},
-		],
 		defaultVariants: {
 			variant: "default",
 			size: "md",
 			disabled: false,
-			isOpen: false,
 		},
 	},
 );
@@ -129,47 +87,15 @@ const accordionContentInnerVariants = cva("leading-snug text-foreground/70", {
 			default: "",
 			card: "border-t border-border/80",
 		},
-		size: {
-			sm: "",
-			md: "",
-			lg: "",
-		},
 	},
 	compoundVariants: [
 		{
-			variant: "default",
-			size: "sm",
-			class: "pb-2",
-		},
-		{
-			variant: "default",
-			size: "md",
-			class: "pb-3",
-		},
-		{
-			variant: "default",
-			size: "lg",
-			class: "pb-4",
-		},
-		{
 			variant: "card",
-			size: "sm",
-			class: "px-3 py-2",
-		},
-		{
-			variant: "card",
-			size: "md",
 			class: "px-4 py-3",
-		},
-		{
-			variant: "card",
-			size: "lg",
-			class: "px-5 py-4",
 		},
 	],
 	defaultVariants: {
 		variant: "default",
-		size: "md",
 	},
 });
 
@@ -180,7 +106,7 @@ export interface AccordionProps
 	size?: "sm" | "md" | "lg";
 	className?: string;
 	type?: "single" | "multiple";
-
+	defaultValue?: string | string[];
 	onValueChange?: (value: string | string[]) => void;
 }
 
@@ -189,18 +115,12 @@ export interface AccordionItemProps
 		VariantProps<typeof accordionItemVariants> {
 	children: React.ReactNode;
 	value?: string;
-	id?: string;
 	className?: string;
 	disabled?: boolean;
-	defaultOpen?: boolean;
 }
 
-type DisclosureButtonProps = React.ComponentPropsWithoutRef<
-	typeof Ariakit.Disclosure
->;
-
 export interface AccordionTriggerProps
-	extends Omit<DisclosureButtonProps, "store">,
+	extends React.ButtonHTMLAttributes<HTMLButtonElement>,
 		VariantProps<typeof accordionTriggerVariants> {
 	children: React.ReactNode;
 	className?: string;
@@ -213,6 +133,7 @@ export interface AccordionContentProps
 	children: React.ReactNode;
 	className?: string;
 }
+
 type AccordionStyleContextType = {
 	variant: "default" | "card";
 	size: "sm" | "md" | "lg";
@@ -231,10 +152,9 @@ const useAccordionStyle = () => {
 };
 
 type AccordionBehaviorContextType = {
+	openItems: Set<string>;
+	toggleItem: (value: string) => void;
 	type: "single" | "multiple";
-	registerItem: (value: string, store: Ariakit.DisclosureStore) => void;
-	unregisterItem: (value: string) => void;
-	notifyItemOpen: (value: string) => void;
 };
 
 const AccordionBehaviorContext = createContext<
@@ -250,7 +170,8 @@ const useAccordionBehavior = () => {
 };
 
 type AccordionItemContextType = {
-	store: Ariakit.DisclosureStore;
+	value: string;
+	isOpen: boolean;
 	disabled: boolean;
 	triggerId: string;
 	contentId: string;
@@ -277,59 +198,61 @@ export const Accordion: React.FC<AccordionProps> = React.memo(
 		size = "md",
 		className,
 		type = "single",
+		defaultValue,
 		onValueChange,
 		...props
 	}) => {
 		const resolvedVariant: "default" | "card" = variant ?? "default";
 		const resolvedSize: "sm" | "md" | "lg" = size ?? "md";
-		const resolvedType: "single" | "multiple" = type ?? "single";
+
+		const initialSet = useMemo(() => {
+			if (defaultValue) {
+				if (Array.isArray(defaultValue)) {
+					return new Set(defaultValue);
+				}
+				return new Set([defaultValue]);
+			}
+			return new Set<string>();
+		}, [defaultValue]);
+
+		const [openItems, setOpenItems] = useState<Set<string>>(initialSet);
+
+		const toggleItem = useCallback(
+			(value: string) => {
+				setOpenItems((prev) => {
+					const next = new Set(prev);
+					if (next.has(value)) {
+						next.delete(value);
+					} else {
+						next.add(value);
+					}
+					if (type === "single") {
+						next.forEach((v) => {
+							if (v !== value) next.delete(v);
+						});
+					}
+					if (onValueChange) {
+						const arr = Array.from(next);
+						onValueChange(type === "single" ? arr[0] || "" : arr);
+					}
+					return next;
+				});
+			},
+			[type, onValueChange],
+		);
 
 		const styleValue = useMemo(
 			() => ({ variant: resolvedVariant, size: resolvedSize }),
 			[resolvedVariant, resolvedSize],
 		);
 
-		const itemsRef = React.useRef<Map<string, Ariakit.DisclosureStore>>(
-			new Map(),
-		);
-
-		const registerItem = useCallback(
-			(value: string, store: Ariakit.DisclosureStore) => {
-				itemsRef.current.set(value, store);
-			},
-			[],
-		);
-
-		const unregisterItem = useCallback((value: string) => {
-			itemsRef.current.delete(value);
-		}, []);
-
-		const notifyItemOpen = useCallback(
-			(value: string) => {
-				if (resolvedType === "single") {
-					itemsRef.current.forEach((store, key) => {
-						if (key !== value) {
-							if (typeof store.setOpen === "function") {
-								store.setOpen(false);
-							}
-						}
-					});
-				}
-				if (typeof onValueChange === "function") {
-					onValueChange(value);
-				}
-			},
-			[resolvedType, onValueChange],
-		);
-
 		const behaviorValue = useMemo<AccordionBehaviorContextType>(
 			() => ({
-				type: resolvedType,
-				registerItem,
-				unregisterItem,
-				notifyItemOpen,
+				openItems,
+				toggleItem,
+				type,
 			}),
-			[resolvedType, registerItem, unregisterItem, notifyItemOpen],
+			[openItems, toggleItem, type],
 		);
 
 		return (
@@ -354,52 +277,36 @@ export const Accordion: React.FC<AccordionProps> = React.memo(
 Accordion.displayName = "Accordion";
 
 export const AccordionItem: React.FC<AccordionItemProps> = React.memo(
-	({
-		children,
-		value,
-		id,
-		className,
-		disabled = false,
-		defaultOpen = false,
-		...props
-	}) => {
+	({ children, value, className, disabled = false, ...props }) => {
 		const { variant } = useAccordionStyle();
-		const { registerItem, unregisterItem, notifyItemOpen } =
-			useAccordionBehavior();
-		const reactId = React.useId();
-		const baseId = (id || value || reactId).toString();
+		const {
+			openItems,
+			toggleItem: _toggleItem,
+			type: _type,
+		} = useAccordionBehavior();
+		const reactId = useId();
+		const itemValue = value || reactId;
+		const isOpen = openItems.has(itemValue);
 
-		const store = Ariakit.useDisclosureStore({ defaultOpen });
-
-		const triggerId = `${baseId}-trigger`;
-		const contentId = `${baseId}-content`;
+		const triggerId = `${itemValue}-trigger`;
+		const contentId = `${itemValue}-content`;
 
 		const contextValue = useMemo<AccordionItemContextType>(
-			() => ({ store, disabled: !!disabled, triggerId, contentId }),
-			[store, disabled, triggerId, contentId],
+			() => ({
+				value: itemValue,
+				isOpen,
+				disabled: !!disabled,
+				triggerId,
+				contentId,
+			}),
+			[itemValue, isOpen, disabled, triggerId, contentId],
 		);
-
-		const open = Ariakit.useStoreState(store, "open");
-
-		React.useEffect(() => {
-			registerItem(baseId, store);
-			return () => unregisterItem(baseId);
-		}, [baseId, registerItem, unregisterItem, store]);
-
-		React.useEffect(() => {
-			if (open) {
-				notifyItemOpen(baseId);
-			}
-		}, [open, baseId, notifyItemOpen]);
 
 		if (variant === "card") {
 			return (
 				<AccordionItemContext.Provider value={contextValue}>
 					<div
-						className={cn(
-							accordionItemVariants({ variant, isOpen: open }),
-							className,
-						)}
+						className={cn(accordionItemVariants({ variant }), className)}
 						{...props}
 					>
 						<div className="relative rounded-lg border border-border bg-card shadow-md card-highlight">
@@ -413,10 +320,7 @@ export const AccordionItem: React.FC<AccordionItemProps> = React.memo(
 		return (
 			<AccordionItemContext.Provider value={contextValue}>
 				<div
-					className={cn(
-						accordionItemVariants({ variant, isOpen: open }),
-						className,
-					)}
+					className={cn(accordionItemVariants({ variant }), className)}
 					{...props}
 				>
 					{children}
@@ -435,36 +339,43 @@ export const AccordionTrigger: React.FC<AccordionTriggerProps> = React.memo(
 		disabled: disabledProp,
 		variant: _variantProp,
 		size: _sizeProp,
-		isOpen: _isOpenProp,
 		...props
 	}) => {
 		const { variant, size } = useAccordionStyle();
-		const { store, disabled, triggerId, contentId } = useAccordionItem();
-		const isOpen = Ariakit.useStoreState(store, "open");
+		const { isOpen, disabled, triggerId, contentId, value } =
+			useAccordionItem();
+		const { toggleItem } = useAccordionBehavior();
 		const mergedDisabled = Boolean(disabled || disabledProp);
 
 		const iconSize = useMemo(() => {
 			return size === "sm" ? 14 : size === "md" ? 16 : 20;
 		}, [size]);
 
+		const handleClick = () => {
+			if (!mergedDisabled) {
+				toggleItem(value);
+			}
+		};
+
 		return (
 			<h3>
-				<Ariakit.Disclosure
-					store={store}
+				<button
 					id={triggerId}
 					data-accordion-trigger
+					type="button"
 					className={cn(
 						accordionTriggerVariants({
 							variant,
 							size,
 							disabled: mergedDisabled,
-							isOpen,
 						}),
 						className,
 					)}
 					aria-controls={contentId}
 					aria-disabled={mergedDisabled || undefined}
+					aria-expanded={isOpen}
 					disabled={mergedDisabled}
+					onClick={handleClick}
 					{...props}
 				>
 					<span className="font-medium">{children}</span>
@@ -476,7 +387,7 @@ export const AccordionTrigger: React.FC<AccordionTriggerProps> = React.memo(
 						)}
 						style={{ width: iconSize, height: iconSize }}
 					/>
-				</Ariakit.Disclosure>
+				</button>
 			</h3>
 		);
 	},
@@ -485,14 +396,13 @@ export const AccordionTrigger: React.FC<AccordionTriggerProps> = React.memo(
 AccordionTrigger.displayName = "AccordionTrigger";
 
 export const AccordionContent: React.FC<AccordionContentProps> = React.memo(
-	({ children, className, ...props }) => {
+	({ children, className, size: _sizeProp, ...props }) => {
 		const { variant, size } = useAccordionStyle();
-		const { store, triggerId, contentId } = useAccordionItem();
-		const isOpen = Ariakit.useStoreState(store, "open");
+		const { isOpen, triggerId, contentId } = useAccordionItem();
 
 		const contentRef = React.useRef<HTMLDivElement>(null);
 		const innerRef = React.useRef<HTMLDivElement>(null);
-		const [height, setHeight] = React.useState<number>(0);
+		const [height, setHeight] = useState<number>(0);
 		const rafRef = React.useRef<number | undefined>(undefined);
 
 		const updateHeight = React.useCallback(() => {
@@ -551,7 +461,7 @@ export const AccordionContent: React.FC<AccordionContentProps> = React.memo(
 					aria-hidden={!isOpen}
 					inert={!isOpen}
 					ref={innerRef}
-					className={cn(accordionContentInnerVariants({ variant, size }))}
+					className={cn(accordionContentInnerVariants({ variant }))}
 				>
 					{children}
 				</section>

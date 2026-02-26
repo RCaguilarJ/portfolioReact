@@ -1,5 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { getAllPostsMeta } from "@/sections/blog/_server/posts";
+import { useQuery } from "@tanstack/react-query";
+import { getAllPostsMeta, type PostMeta } from "@/lib/posts";
 import Blog from "@/sections/blog/blog";
 import FAQ from "@/sections/faq/faq";
 import Footer from "@/sections/footer/footer";
@@ -9,20 +9,12 @@ import Showcase from "@/sections/showcase/showcase";
 import Testimonials from "@/sections/testimonials/testimonials";
 import Works from "@/sections/works/works";
 
-export const Route = createFileRoute("/")({
-	loader: async () => {
-		try {
-			return await getAllPostsMeta();
-		} catch (error) {
-			console.error("Error loading posts:", error);
-			return [];
-		}
-	},
-	component: App,
-});
+export default function HomePage() {
+	const { data: posts = [] } = useQuery<PostMeta[]>({
+		queryKey: ["posts"],
+		queryFn: getAllPostsMeta,
+	});
 
-function App() {
-	const posts = Route.useLoaderData();
 	return (
 		<main className="mx-auto flex flex-col items-center justify-start w-full md:w-7xl md:border-x border-border divide-y divide-border/80">
 			<Hero />

@@ -1,6 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { Link, useRouter } from "@tanstack/react-router";
 import { useCallback, useRef } from "react";
+import { Link, useNavigate } from "react-router";
 import { Badge } from "@/components/ui/badge";
 import {
 	Card,
@@ -9,28 +9,22 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
+import type { PostMeta } from "@/lib/posts";
 import { blogPostQueryOptions } from "@/sections/blog/_queries/posts";
-import type { PostMeta } from "@/sections/blog/_server/posts";
 
 type BlogCardProps = {
 	meta: PostMeta;
 };
 
 export default function BlogCard({ meta }: BlogCardProps) {
-	const router = useRouter();
+	const navigate = useNavigate();
 	const queryClient = useQueryClient();
 	const hasPrefetchedRef = useRef(false);
 	const prefetchBlogRoute = useCallback(() => {
 		if (hasPrefetchedRef.current) return;
 		hasPrefetchedRef.current = true;
-		void Promise.all([
-			router.preloadRoute({
-				to: "/blog/$slug",
-				params: { slug: meta.slug },
-			}),
-			queryClient.prefetchQuery(blogPostQueryOptions(meta.slug)),
-		]);
-	}, [meta.slug, queryClient, router]);
+		queryClient.prefetchQuery(blogPostQueryOptions(meta.slug));
+	}, [meta.slug, queryClient]);
 
 	const formattedDate = formatDate(meta.date);
 	const formattedReadingTime = formatReadingTime(meta.readingTime);
@@ -42,8 +36,7 @@ export default function BlogCard({ meta }: BlogCardProps) {
 
 	return (
 		<Link
-			to="/blog/$slug"
-			params={{ slug: meta.slug }}
+			to={`/blog/${meta.slug}`}
 			className="block h-full rounded-lg transition-shadow duration-100 ease-out-quad focus-visible:ring-1 focus-visible:ring-ring/50 focus-visible:ring-offset-1 focus-visible:ring-offset-ring-offset/50 focus-visible:outline-none"
 			aria-label={`Leer articulo: ${meta.title}`}
 			onMouseEnter={prefetchBlogRoute}

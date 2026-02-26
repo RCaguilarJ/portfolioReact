@@ -1,6 +1,6 @@
 import { CheckIcon, CopyIcon } from "@radix-ui/react-icons";
-import { Link } from "@tanstack/react-router";
 import React from "react";
+import { Link } from "react-router";
 import { MdxTable } from "@/components/mdx/mdx-table";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";

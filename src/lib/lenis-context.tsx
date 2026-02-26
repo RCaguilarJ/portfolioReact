@@ -1,4 +1,3 @@
-import { useRouter, useRouterState } from "@tanstack/react-router";
 import Lenis from "lenis";
 import type React from "react";
 import {
@@ -8,6 +7,7 @@ import {
 	useEffect,
 	useRef,
 } from "react";
+import { useSearchParams } from "react-router";
 
 interface LenisScrollOptions {
 	duration?: number;
@@ -67,11 +67,8 @@ export const LenisProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
 	const lenis = useRef<Lenis | null>(null);
 	const pendingScrollRef = useRef<PendingScrollTarget | null>(null);
-	const router = useRouter();
-
-	const pathname = useRouterState({
-		select: (state) => state.location.pathname,
-	});
+	const [searchParams] = useSearchParams();
+	const pathname = window.location.pathname;
 
 	useEffect(() => {
 		lenis.current = new Lenis({ duration: 0.5 });
@@ -102,11 +99,7 @@ export const LenisProvider: React.FC<{ children: ReactNode }> = ({
 
 		if (isSectionTarget && pathname !== "/") {
 			pendingScrollRef.current = { target: resolvedTarget, options };
-
-			router.navigate({ to: "/", resetScroll: false }).catch(() => {
-				pendingScrollRef.current = null;
-			});
-
+			window.history.pushState(null, "", "/");
 			return;
 		}
 
@@ -137,7 +130,7 @@ export const LenisProvider: React.FC<{ children: ReactNode }> = ({
 		};
 
 		requestAnimationFrame(tick);
-	}, [pathname]);
+	}, [pathname, searchParams]);
 
 	return (
 		<LenisContext.Provider value={{ lenis, scrollTo }}>

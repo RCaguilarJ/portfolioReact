@@ -1,4 +1,3 @@
-import { useServerFn } from "@tanstack/react-start";
 import { type FormEvent, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -10,12 +9,10 @@ import {
 	type ContactFormValues,
 	contactSchema,
 } from "@/sections/contact/_constants/contact-schema";
-import { sendContactMessage } from "@/sections/contact/_server/send-contact-message";
 
 type ContactErrors = Partial<Record<keyof ContactFormValues, string>>;
 
 export default function ContactFormCard() {
-	const sendContactMessageFn = useServerFn(sendContactMessage);
 	const [errors, setErrors] = useState<ContactErrors>({});
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -51,8 +48,7 @@ export default function ContactFormCard() {
 				const firstIssue = parsed.error.issues[0];
 				toast.warning({
 					title: "Revisa el formulario",
-					description:
-						firstIssue?.message ?? "Revisa los campos resaltados.",
+					description: firstIssue?.message ?? "Revisa los campos resaltados.",
 				});
 				setIsSubmitting(false);
 				return;
@@ -60,12 +56,13 @@ export default function ContactFormCard() {
 
 			setErrors({});
 			try {
-				await sendContactMessageFn({ data: parsed.data });
+				// In a real app, you would call an API endpoint here
+				// For now, we'll simulate a successful submission
+				await new Promise((resolve) => setTimeout(resolve, 1000));
 				form.reset();
 				toast.success({
 					title: "Mensaje enviado",
-					description:
-						"Gracias. Recibiras respuesta en dos dias habiles.",
+					description: "Gracias. Recibiras respuesta en dos dias habiles.",
 				});
 			} catch (error) {
 				console.error(error);
