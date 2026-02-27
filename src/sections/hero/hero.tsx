@@ -1,6 +1,6 @@
 import { useGSAP } from "@gsap/react";
 import { EyeLogoIcon } from "@/components/icons/eye-logo-icon";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ShinyBadge } from "@/components/ui/shiny-badge";
 import {
@@ -264,11 +264,7 @@ export default function Hero() {
 	/*  Render                                                             */
 	/* ------------------------------------------------------------------ */
 	return (
-		<section
-			ref={heroRef}
-			id="hero"
-			className="p-[1.5%] bg-background"
-		>
+		<section ref={heroRef} id="hero" className="p-[1.5%] bg-background">
 			{/* SVG mask definition for the stepped-corner shape */}
 			<svg width="0" height="0" className="absolute">
 				<defs>
@@ -286,7 +282,7 @@ export default function Hero() {
 				className="relative isolate w-full"
 				style={{ minHeight: "calc(100svh - 3vh)" }}
 			>
-				{/* ---- Masked shader background ---- */}
+				{/* ---- Masked background (shader) ---- */}
 				<div
 					className="absolute inset-0 overflow-hidden"
 					style={{
@@ -296,43 +292,37 @@ export default function Hero() {
 				>
 					<Background />
 
-					{/* Gradient overlays for readability */}
+					{/* Gradient overlays for readability on content area */}
 					<div className="pointer-events-none absolute inset-0">
 						<div
 							className="absolute inset-0"
 							style={{
 								background:
-									"linear-gradient(to bottom, var(--color-background) 0%, transparent 30%, transparent 60%, color-mix(in oklab, var(--color-background) 45%, transparent) 100%)",
+									"linear-gradient(to bottom, transparent 0%, transparent 50%, var(--color-background) 100%)",
 							}}
 						/>
 						<div
 							className="absolute inset-0"
 							style={{
 								background:
-									"linear-gradient(to right, color-mix(in oklab, var(--color-background) 45%, transparent), color-mix(in oklab, var(--color-background) 15%, transparent), transparent)",
-							}}
-						/>
-						<div
-							className="absolute inset-0"
-							style={{
-								background:
-									"radial-gradient(90% 60% at 10% 70%, color-mix(in oklab, var(--color-background) 55%, transparent) 0%, transparent 70%)",
+									"linear-gradient(to right, color-mix(in oklab, var(--color-background) 40%, transparent), transparent 60%)",
 							}}
 						/>
 					</div>
 				</div>
 
-				{/* ---- Glassmorphism content card ---- */}
+				{/* ---- Content card at bottom-left ---- */}
 				<div className="absolute bottom-6 left-6 right-6 max-w-[min(46rem,92vw)] md:bottom-8 md:left-8 z-10">
 					<div
 						ref={cardRef}
 						onMouseLeave={handleMouseLeave}
-						className="relative overflow-hidden rounded-lg p-6 md:p-8 transition-transform duration-500 ease-in hover:scale-[1.01] border border-border/10 dark:border-border/10"
+						className="relative overflow-hidden rounded-lg p-6 md:p-8 transition-transform duration-500 ease-in hover:scale-[1.01]"
 						style={{
 							backdropFilter: "blur(16px)",
 							WebkitBackdropFilter: "blur(16px)",
 							background:
-								"color-mix(in oklab, var(--color-card) 8%, transparent)",
+								"color-mix(in oklab, var(--color-card) 12%, transparent)",
+							border: "1px solid color-mix(in oklab, var(--color-border) 20%, transparent)",
 						}}
 					>
 						{/* Pixel scatter overlay */}
@@ -347,13 +337,7 @@ export default function Hero() {
 							style={{ visibility: "hidden" }}
 							className="mb-4"
 						>
-							<ShinyBadge>
-								<EyeLogoIcon
-									aria-hidden="true"
-									className="size-3.5"
-								/>
-								WEB DEVELOPER
-							</ShinyBadge>
+							<ShinyBadge>WEB DEVELOPER</ShinyBadge>
 						</div>
 
 						{/* Title */}
@@ -376,11 +360,11 @@ export default function Hero() {
 							conocimiento en wordpress
 						</p>
 
-						{/* CTA buttons */}
+						{/* CTA button */}
 						<div
 							ref={actionsRef}
 							style={{ visibility: "hidden" }}
-							className="mt-5 flex items-center gap-3"
+							className="mt-5"
 						>
 							<Button
 								variant="secondary"
@@ -388,14 +372,6 @@ export default function Hero() {
 								onClick={() => scrollTo("#works")}
 							>
 								Ver portafolio
-							</Button>
-							<Button
-								variant="default"
-								size="sm"
-								className="font-mono font-light uppercase tracking-tight"
-								onClick={() => scrollTo("#contact")}
-							>
-								Contacto
 							</Button>
 						</div>
 					</div>
