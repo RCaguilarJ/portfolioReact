@@ -1,6 +1,6 @@
 import { useGSAP } from "@gsap/react";
 import { EyeLogoIcon } from "@/components/icons/eye-logo-icon";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ShinyBadge } from "@/components/ui/shiny-badge";
 import {
@@ -15,65 +15,62 @@ import { Background } from "@/sections/hero/_components/background";
 registerGsapPlugins();
 
 export default function Hero() {
-	const heroRef = useRef<HTMLDivElement>(null);
+	const heroRef = useRef<HTMLElement>(null);
 	const badgeRef = useRef<HTMLDivElement>(null);
 	const titleRef = useRef<HTMLHeadingElement>(null);
 	const descriptionRef = useRef<HTMLParagraphElement>(null);
 	const actionsRef = useRef<HTMLDivElement>(null);
+	const cardRef = useRef<HTMLDivElement>(null);
+	const pixelGridRef = useRef<HTMLDivElement>(null);
+
 	const [fontsLoaded, setFontsLoaded] = useState(() => {
-		if (typeof document === "undefined") {
-			return false;
-		}
-
-		if (!("fonts" in document)) {
-			return true;
-		}
-
+		if (typeof document === "undefined") return false;
+		if (!("fonts" in document)) return true;
 		return document.fonts.status === "loaded";
 	});
+
 	const { scrollTo } = useLenis();
 
+	/* ------------------------------------------------------------------ */
+	/*  Wait for fonts                                                     */
+	/* ------------------------------------------------------------------ */
 	useEffect(() => {
-		if (fontsLoaded || typeof document === "undefined") {
-			return;
-		}
-
+		if (fontsLoaded || typeof document === "undefined") return;
 		if (!("fonts" in document)) {
 			setFontsLoaded(true);
 			return;
 		}
-
 		let isActive = true;
 		document.fonts.ready.then(() => {
-			if (isActive) {
-				setFontsLoaded(true);
-			}
+			if (isActive) setFontsLoaded(true);
 		});
-
 		return () => {
 			isActive = false;
 		};
 	}, [fontsLoaded]);
 
+	/* ------------------------------------------------------------------ */
+	/*  Entrance animation (SplitText + premiumEase)                       */
+	/* ------------------------------------------------------------------ */
 	useGSAP(
 		(context) => {
-			if (!fontsLoaded) {
-				return;
-			}
-
+			if (!fontsLoaded) return;
 			const hero = heroRef.current;
 			if (!hero) return;
 
 			gsap.set(
-      [badgeRef.current, titleRef.current, descriptionRef.current, actionsRef.current],
-      { autoAlpha: 1 }
-      );
+				[
+					badgeRef.current,
+					titleRef.current,
+					descriptionRef.current,
+					actionsRef.current,
+				],
+				{ autoAlpha: 1 },
+			);
 
 			const splits: SplitText[] = [];
 			context.add(() => {
-				splits.forEach((split) => {
-					split.revert();
-				});
+				splits.forEach((split) => split.revert());
 			});
 
 			const titleSplit = titleRef.current
@@ -84,17 +81,11 @@ export default function Hero() {
 				? new SplitText(descriptionRef.current, { type: "lines" })
 				: null;
 
-			if (titleSplit) {
-				splits.push(titleSplit);
-			}
-			if (descriptionSplit) {
-				splits.push(descriptionSplit);
-			}
+			if (titleSplit) splits.push(titleSplit);
+			if (descriptionSplit) splits.push(descriptionSplit);
 
 			const timeline = gsap.timeline({
-				defaults: {
-					ease: premiumEase,
-				},
+				defaults: { ease: premiumEase },
 				scrollTrigger: {
 					trigger: hero,
 					start: "top 80%",
@@ -152,7 +143,6 @@ export default function Hero() {
 						yPercent: 30,
 						autoAlpha: 0,
 						filter: "blur(16px)",
-						ease: premiumEase,
 					},
 					{
 						yPercent: 0,
@@ -173,47 +163,260 @@ export default function Hero() {
 		},
 	);
 
+	/* ------------------------------------------------------------------ */
+	/*  Pixel-scatter animation on card mouse-leave                        */
+	/* ------------------------------------------------------------------ */
+	const handleMouseLeave = useCallback(() => {
+		if (!cardRef.current || !pixelGridRef.current) return;
+
+		const gridSize = 4;
+		const pixelSize = 100 / gridSize;
+		const grid = pixelGridRef.current;
+
+		grid.innerHTML = "";
+
+		const totalPixels = gridSize * gridSize;
+		const clearIndices = new Set<number>();
+		while (clearIndices.size < 3) {
+			clearIndices.add(Math.floor(Math.random() * totalPixels));
+		}
+
+		let pixelIndex = 0;
+		for (let row = 0; row < gridSize; row++) {
+			for (let col = 0; col < gridSize; col++) {
+				if (clearIndices.has(pixelIndex)) {
+					pixelIndex++;
+					continue;
+				}
+
+				const pixel = document.createElement("div");
+				const isAccent = Math.random() < 0.5;
+
+				const normalizedPosition =
+					(col + (gridSize - 1 - row)) / ((gridSize - 1) * 2);
+				const targetOpacity = 0.5 + normalizedPosition * 0.5;
+
+				const accentColor = getComputedStyle(
+					document.documentElement,
+				).getPropertyValue("--color-gradient-from");
+				const bgColor = getComputedStyle(
+					document.documentElement,
+				).getPropertyValue("--color-background");
+
+				pixel.style.cssText = `
+					position:absolute;
+					width:${pixelSize}%;
+					height:${pixelSize}%;
+					left:${col * pixelSize}%;
+					top:${row * pixelSize}%;
+					opacity:0;
+					display:block;
+					background:${isAccent ? accentColor : bgColor};
+				`;
+				pixel.setAttribute(
+					"data-target-opacity",
+					targetOpacity.toString(),
+				);
+				grid.appendChild(pixel);
+
+				pixelIndex++;
+			}
+		}
+
+		const pixels = Array.from(grid.children) as HTMLElement[];
+		const stepDur = 0.45;
+		const staggerDur = stepDur / pixels.length;
+
+		const tl = gsap.timeline();
+
+		tl.to(cardRef.current, {
+			scale: 0.995,
+			duration: 0.2,
+			ease: "power2.in",
+		});
+
+		tl.to(
+			pixels,
+			{
+				opacity: (_i: number, target: HTMLElement) =>
+					target.getAttribute("data-target-opacity") || "1",
+				duration: 0.45,
+				ease: "power2.in",
+				stagger: { each: staggerDur, from: "random" },
+			},
+			"<",
+		);
+
+		tl.to(
+			pixels,
+			{ opacity: 0, duration: 0.3, ease: "power2.out" },
+			`+=${stepDur}`,
+		);
+		tl.to(
+			cardRef.current,
+			{ scale: 1, duration: 0.3, ease: "power2.in" },
+			"<",
+		);
+		tl.set(pixels, { display: "none" });
+	}, []);
+
+	/* ------------------------------------------------------------------ */
+	/*  Render                                                             */
+	/* ------------------------------------------------------------------ */
 	return (
 		<section
-			id="hero"
 			ref={heroRef}
-			className="relative flex h-[55vh] md:h-[50vh] w-full px-4 md:px-16 flex-col items-center justify-center gap-4"
+			id="hero"
+			className="p-[1.5%] bg-background"
 		>
-			<div className="relative z-10 flex flex-col items-center gap-2">
-				<div style={{visibility: "hidden"}} ref={badgeRef} className="w-fit">
-					       <ShinyBadge>
-						       <EyeLogoIcon aria-hidden="true" className="size-3.5" />
-						       WEB DEVELOPER
-					       </ShinyBadge>
-				</div>
-				       <h1
-					 style={{visibility: "hidden"}}
-					       ref={titleRef}
-					       className="text-3xl text-center text-foreground font-medium text-balance max-w-3xl"
-				       >
-						   desarrollo y diseño web full stack y wordpress
-				       </h1>
-				       <p
-					 style={{visibility: "hidden"}}
-					       ref={descriptionRef}
-					       className="text-base md:text-lg text-center text-foreground/70 font-medium text-balance leading-relaxed max-w-xl"
-				       >
-					       enfocado en proyectos full stack de javascript con frameworks como react y node js asii como amplio conociocimiento en wordpress
-				       </p>
-			</div>
-			       <div ref={actionsRef} className="relative z-10  flex items-center gap-2">
-				       <Button
-					 style={{visibility: "hidden"}}
-					       variant="secondary"
-					       size="md"
-					       onClick={() => scrollTo("#works")}
-				       >
-					       Ver portafolio
-				</Button>
-			</div>
+			{/* SVG mask definition for the stepped-corner shape */}
+			<svg width="0" height="0" className="absolute">
+				<defs>
+					<mask id="heroMask" maskContentUnits="objectBoundingBox">
+						<rect width="1" height="1" fill="black" />
+						<path
+							d="M0 0.1474 V0.9863 C0 0.9938 0.0038 0.9996 0.0085 0.9996 H0.9912 C0.9958 0.9996 1 0.9863 1 0.9863 V0.0581 C1 0.0506 0.9958 0.0444 0.9912 0.0444 H0.9255 C0.9208 0.0444 0.9165 0.0383 0.9165 0.0307 V0.0149 C0.9165 0.0074 0.9132 0.0013 0.9084 0.0013 L0.2060 0.0000 C0.2012 -0.0000 0.1975 0.0061 0.1975 0.0137 V0.0312 C0.1975 0.0387 0.1936 0.0448 0.1889 0.0448 H0.0915 C0.0868 0.0448 0.0830 0.0510 0.0830 0.0585 V0.1201 C0.0830 0.1276 0.0792 0.1337 0.0745 0.1337 H0.0085 C0.0038 0.1337 0 0.1399 0 0.1474 Z"
+							fill="white"
+						/>
+					</mask>
+				</defs>
+			</svg>
 
-			<div className="absolute inset-0 z-0 h-full w-full pointer-events-none">
-				<Background />
+			<div
+				className="relative isolate w-full"
+				style={{ minHeight: "calc(100svh - 3vh)" }}
+			>
+				{/* ---- Masked shader background ---- */}
+				<div
+					className="absolute inset-0 overflow-hidden"
+					style={{
+						mask: "url(#heroMask)",
+						WebkitMask: "url(#heroMask)",
+					}}
+				>
+					<Background />
+
+					{/* Gradient overlays for readability */}
+					<div className="pointer-events-none absolute inset-0">
+						<div
+							className="absolute inset-0"
+							style={{
+								background:
+									"linear-gradient(to bottom, var(--color-background) 0%, transparent 30%, transparent 60%, color-mix(in oklab, var(--color-background) 45%, transparent) 100%)",
+							}}
+						/>
+						<div
+							className="absolute inset-0"
+							style={{
+								background:
+									"linear-gradient(to right, color-mix(in oklab, var(--color-background) 45%, transparent), color-mix(in oklab, var(--color-background) 15%, transparent), transparent)",
+							}}
+						/>
+						<div
+							className="absolute inset-0"
+							style={{
+								background:
+									"radial-gradient(90% 60% at 10% 70%, color-mix(in oklab, var(--color-background) 55%, transparent) 0%, transparent 70%)",
+							}}
+						/>
+					</div>
+				</div>
+
+				{/* ---- Glassmorphism content card ---- */}
+				<div className="absolute bottom-6 left-6 right-6 max-w-[min(46rem,92vw)] md:bottom-8 md:left-8 z-10">
+					<div
+						ref={cardRef}
+						onMouseLeave={handleMouseLeave}
+						className="relative overflow-hidden rounded-lg p-6 md:p-8 transition-transform duration-500 ease-in hover:scale-[1.01] border border-border/10 dark:border-border/10"
+						style={{
+							backdropFilter: "blur(16px)",
+							WebkitBackdropFilter: "blur(16px)",
+							background:
+								"color-mix(in oklab, var(--color-card) 8%, transparent)",
+						}}
+					>
+						{/* Pixel scatter overlay */}
+						<div
+							ref={pixelGridRef}
+							className="absolute inset-0 pointer-events-none z-10"
+						/>
+
+						{/* Badge */}
+						<div
+							ref={badgeRef}
+							style={{ visibility: "hidden" }}
+							className="mb-4"
+						>
+							<ShinyBadge>
+								<EyeLogoIcon
+									aria-hidden="true"
+									className="size-3.5"
+								/>
+								WEB DEVELOPER
+							</ShinyBadge>
+						</div>
+
+						{/* Title */}
+						<h1
+							ref={titleRef}
+							style={{ visibility: "hidden" }}
+							className="text-balance text-3xl/tight sm:text-4xl/tight md:text-5xl/tight tracking-tight text-foreground font-medium"
+						>
+							desarrollo y diseno web full stack y wordpress
+						</h1>
+
+						{/* Description */}
+						<p
+							ref={descriptionRef}
+							style={{ visibility: "hidden" }}
+							className="mt-3 text-sm/relaxed md:text-base/relaxed max-w-prose text-foreground/70"
+						>
+							enfocado en proyectos full stack de javascript con
+							frameworks como react y node js asi como amplio
+							conocimiento en wordpress
+						</p>
+
+						{/* CTA buttons */}
+						<div
+							ref={actionsRef}
+							style={{ visibility: "hidden" }}
+							className="mt-5 flex items-center gap-3"
+						>
+							<Button
+								variant="secondary"
+								size="md"
+								onClick={() => scrollTo("#works")}
+							>
+								Ver portafolio
+							</Button>
+							<Button
+								variant="default"
+								size="sm"
+								className="font-mono font-light uppercase tracking-tight"
+								onClick={() => scrollTo("#contact")}
+							>
+								Contacto
+							</Button>
+						</div>
+					</div>
+				</div>
+
+				{/* ---- Top-left logo ---- */}
+				<div className="absolute left-[2%] top-[2%] z-20">
+					<EyeLogoIcon className="w-10 h-10 sm:w-12 sm:h-12 text-foreground" />
+				</div>
+
+				{/* ---- Top-right CTA ---- */}
+				<div className="absolute right-[1%] top-[1%] z-20">
+					<Button
+						variant="default"
+						size="sm"
+						className="font-mono font-light uppercase tracking-tight"
+						onClick={() => scrollTo("#works")}
+					>
+						Portfolio
+					</Button>
+				</div>
 			</div>
 		</section>
 	);
